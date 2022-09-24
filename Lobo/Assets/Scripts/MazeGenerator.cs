@@ -15,6 +15,7 @@ public class MazeGenerator : MonoBehaviour
     void GenerateMaze(Vector2Int mazeSize)
     {
         var nodes = new List<MazeNode>();
+
         // Create Nodes
         for (int x = 0; x < mazeSize.x; x++)
         {
