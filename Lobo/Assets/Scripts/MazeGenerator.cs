@@ -42,24 +42,41 @@ public class MazeGenerator : MonoBehaviour
             var currentNodeX = currentNodeIndex / mazeSize.y;
             var currentNodeY = currentNodeIndex % mazeSize.y;
 
-            void CheckNeighbourNode(int a, int b, bool c, int d, int e, int f)
+            void CheckNeighbourNode(int nodePosition, 
+                                    int outmostWallPosition, 
+                                    bool boolean, 
+                                    int changeDirectionsVariable, 
+                                    int indexesToNeighbouringNode, 
+                                    int directionToMoveTo)
             {
-                if (a >= b == c) return;
-                var index = currentNodeIndex + d * e;
-                if (completedNodes.Contains(nodes[index])) return;
-                if (currentPath.Contains(nodes[index])) return;
-                possibleDirections.Add(f);
-                possibleNextNodes.Add(index);
+                if (nodePosition >= outmostWallPosition == boolean) return;
+
+                var neighbouringNodeIndex = currentNodeIndex + changeDirectionsVariable * indexesToNeighbouringNode;
+
+                if (completedNodes.Contains(nodes[neighbouringNodeIndex])) return;
+                if (currentPath.Contains(nodes[neighbouringNodeIndex])) return;
+
+                possibleDirections.Add(directionToMoveTo);
+                possibleNextNodes.Add(neighbouringNodeIndex);
             }
-            // Left
+
+            // Check node to the right of the current node
             CheckNeighbourNode(currentNodeX, mazeSize.x - 1,  true,  1, mazeSize.y, 1);
-            // Right
+
+            // Check node to the left of the current node
             CheckNeighbourNode(currentNodeX,              1, false, -1, mazeSize.y, 2);
-            // Top
+
+            // Check node above the current node
             CheckNeighbourNode(currentNodeY, mazeSize.y - 1,  true,  1,          1, 3);
-            // Down
+
+            // Check node below the current node
             CheckNeighbourNode(currentNodeY,              1, false, -1,          1, 4);
 
+            // Remove a random wall if the node is not on the outmost of the maze (this is not part of the algorithm, but ensures certain maze patterns inside Bolo are met)
+            if (currentNodeX < mazeSize.x - 1 && currentNodeX > 1 && currentNodeY < mazeSize.y - 1 && currentNodeY > 1)
+            {
+                nodes[currentNodeIndex].RemoveWall(Random.Range(0, 4));
+            }
 
             // Choose next node
             if (possibleDirections.Count > 0)
@@ -67,6 +84,7 @@ public class MazeGenerator : MonoBehaviour
                 var chosenDirection = Random.Range(0, possibleDirections.Count);
                 var chosenNode = nodes[possibleNextNodes[chosenDirection]];
 
+                // Remove walls between nodes that are connected in a path
                 switch (possibleDirections[chosenDirection]) 
                 {
                     case 1:
