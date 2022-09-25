@@ -6,16 +6,10 @@ public class MazeGenerator : MonoBehaviour
 {
     [SerializeField] MazeNode nodePrefab;
     [SerializeField] Vector2Int mazeSize;
+    List<MazeNode> nodes = new List<MazeNode>();
 
     void Start()
     {
-        GenerateMaze(mazeSize);
-    }
-
-    void GenerateMaze(Vector2Int mazeSize)
-    {
-        var nodes = new List<MazeNode>();
-
         // Create Nodes
         for (int x = 0; x < mazeSize.x; x++)
         {
@@ -43,11 +37,11 @@ public class MazeGenerator : MonoBehaviour
             var currentNodeX = currentNodeIndex / mazeSize.y;
             var currentNodeY = currentNodeIndex % mazeSize.y;
 
-            void CheckNeighbourNode(int nodePosition, 
-                                    int outmostWallPosition, 
-                                    bool boolean, 
-                                    int changeDirectionsVariable, 
-                                    int indexesToNeighbouringNode, 
+            void CheckNeighbourNode(int nodePosition,
+                                    int outmostWallPosition,
+                                    bool boolean,
+                                    int changeDirectionsVariable,
+                                    int indexesToNeighbouringNode,
                                     int directionToMoveTo)
             {
                 if (nodePosition >= outmostWallPosition == boolean) return;
@@ -62,18 +56,18 @@ public class MazeGenerator : MonoBehaviour
             }
 
             // Check node to the right of the current node
-            CheckNeighbourNode(currentNodeX, mazeSize.x - 1,  true,  1, mazeSize.y, 1);
+            CheckNeighbourNode(currentNodeX, mazeSize.x - 1, true, 1, mazeSize.y, 1);
 
             // Check node to the left of the current node
-            CheckNeighbourNode(currentNodeX,              1, false, -1, mazeSize.y, 2);
+            CheckNeighbourNode(currentNodeX, 1, false, -1, mazeSize.y, 2);
 
             // Check node above the current node
-            CheckNeighbourNode(currentNodeY, mazeSize.y - 1,  true,  1,          1, 3);
+            CheckNeighbourNode(currentNodeY, mazeSize.y - 1, true, 1, 1, 3);
 
             // Check node below the current node
-            CheckNeighbourNode(currentNodeY,              1, false, -1,          1, 4);
+            CheckNeighbourNode(currentNodeY, 1, false, -1, 1, 4);
 
-            // Remove a random wall if the node is not on the outmost of the maze (this is not part of the algorithm, but ensures certain maze patterns inside Bolo are met)
+            // Remove a random wall if the node is not on the outmost of the maze (this is not part of the algorithm, but ensures certain Bolo maze patterns are met)
             if (currentNodeX < mazeSize.x - 1 && currentNodeX > 1 && currentNodeY < mazeSize.y - 1 && currentNodeY > 1)
             {
                 nodes[currentNodeIndex].RemoveWall(Random.Range(0, 4));
@@ -86,7 +80,7 @@ public class MazeGenerator : MonoBehaviour
                 var chosenNode = nodes[possibleNextNodes[chosenDirection]];
 
                 // Remove walls between nodes that are connected in a path
-                switch (possibleDirections[chosenDirection]) 
+                switch (possibleDirections[chosenDirection])
                 {
                     case 1:
                         chosenNode.RemoveWall(1);
@@ -117,4 +111,6 @@ public class MazeGenerator : MonoBehaviour
             }
         }
     }
+
+    public List<MazeNode> GetMazeNodesList() => nodes;
 }
