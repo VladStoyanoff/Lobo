@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7816061529800043662}
   - component: {fileID: 5568242414578966412}
+  - component: {fileID: -816319631769904335}
   m_Layer: 0
-  m_Name: EnemyBase
+  m_Name: Enemy Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -84,3 +85,17 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-816319631769904335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5285776942571935176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e30729b85c890ec46aafbf44caac60e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyUnitPrefabs:
+  - {fileID: 4297729523688856036, guid: ac7fb81877e0ceb4fbb4301402246154, type: 3}
