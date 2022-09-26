@@ -8,7 +8,6 @@ public class AIController : MonoBehaviour
 {
     PlayerController player;
     MazeGenerator mazeGenerator;
-    [SerializeField] int speed;
 
     void Awake()
     {
@@ -46,6 +45,4 @@ public class AIController : MonoBehaviour
     //{
     //    throw new NotImplementedException();
     //}
-
-    public int GetSpeed() => speed;
 }

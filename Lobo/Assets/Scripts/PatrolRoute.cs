@@ -1,24 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class PatrolRoute : MonoBehaviour
 {
     [SerializeField] Transform waypointPrefab;
 
     MazeGenerator mazeGenerator;
-    AIController aiController;
+    NavMeshAgent navMeshAgent;
     List<Transform> waypoints = new List<Transform>();
     int waypointIndex = 0;
 
     void Awake()
     {
-        aiController = GetComponent<AIController>();
         mazeGenerator = FindObjectOfType<MazeGenerator>();
     }
 
     void Start()
     {
+        navMeshAgent = GetComponent<NavMeshAgent>();
+
         var allNodes = mazeGenerator.GetMazeNodesList();
         var numberOfWaypoints = 10;
         for (int i = 0; i < numberOfWaypoints; i++)
@@ -31,10 +33,11 @@ public class PatrolRoute : MonoBehaviour
 
     void Update()
     {
+        var waypointWidth = .3f;
         var waypointPosition = waypoints[waypointIndex].position;
-        var deltaSpeed = aiController.GetSpeed() * Time.deltaTime;
-        transform.position = Vector3.MoveTowards(transform.position, waypointPosition, deltaSpeed);
-        if (transform.position != waypointPosition) return;
+        navMeshAgent.destination = waypointPosition;
+        var distanceToWaypoint = Vector3.Distance(transform.position, waypointPosition);
+        if (distanceToWaypoint > waypointWidth) return;
         waypointIndex++;
         if (waypointIndex != waypoints.Count) return;
         waypointIndex = 0;
