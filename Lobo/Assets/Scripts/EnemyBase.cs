@@ -5,6 +5,8 @@ using UnityEngine;
 public class EnemyBase : MonoBehaviour
 {
     GameManager gameManager;
+
+    [SerializeField] float spawnRate = 10;
     [SerializeField] GameObject[] enemyUnitPrefabs;
 
     void Awake()
@@ -19,7 +21,6 @@ public class EnemyBase : MonoBehaviour
 
     IEnumerator SpawnEnemies()
     {
-        var spawnRate = 5f;
         var index = Random.Range(0, enemyUnitPrefabs.Length);
         while (gameManager.GetIsGameActiveBool())
         {

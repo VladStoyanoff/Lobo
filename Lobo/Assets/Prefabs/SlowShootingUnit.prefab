@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waypointPrefab: {fileID: 8726696797764303675, guid: 3918ed87c2d7fa04a9a8bb56264f466a, type: 3}
+  patrolRoutePrefab: {fileID: 845545294885053590, guid: 9161888d406e2cd4798cd2453214fa75, type: 3}
 --- !u!114 &4279592822453893373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60,6 +61,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 326ba575f502be94e9f74b4a69305cd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 1609567541951510432, guid: 2012ca496abf2c744a9f43e783565b23, type: 3}
 --- !u!195 &7815535642124060861
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -154,7 +156,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
