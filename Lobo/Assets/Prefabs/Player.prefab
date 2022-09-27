@@ -132,6 +132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 1
+  bulletPrefab: {fileID: 1609567541951510432, guid: 2012ca496abf2c744a9f43e783565b23, type: 3}
 --- !u!61 &5276362008675652035
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -145,7 +146,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.48}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
