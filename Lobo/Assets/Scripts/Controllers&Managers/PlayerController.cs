@@ -8,12 +8,13 @@ public class PlayerController : MonoBehaviour
 
     float timeSinceLastShot = Mathf.Infinity;
     const int CANNON_ROTATE_SPEED = 50;
+    const float BULLET_SPEED = .5f;
     const int FIRE_RATE = 2;
 
     [SerializeField] float moveSpeed;
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] GameObject cannon;
-    [SerializeField] GameObject bulletSpawnPoint;
+    [SerializeField] Transform bulletSpawnPoint;
 
 
     void Awake()
@@ -48,12 +49,13 @@ public class PlayerController : MonoBehaviour
         cannon.transform.localEulerAngles += rotationVector * CANNON_ROTATE_SPEED * Time.deltaTime;
     }
 
-    // BUGGY - Fix when you've added the cannon
     void TryShootProjectile()
     {
         if (timeSinceLastShot < FIRE_RATE) return;
         if (inputActionsScript.Player.Shoot.IsPressed() == false) return;
-        Instantiate(bulletPrefab, bulletSpawnPoint.transform.position, Quaternion.Euler(cannon.transform.localEulerAngles), transform);
+        var bullet = Instantiate(bulletPrefab, bulletSpawnPoint.transform.position, Quaternion.Euler(cannon.transform.localEulerAngles));
+        bullet.GetComponent<Rigidbody2D>().velocity = bulletSpawnPoint.up * BULLET_SPEED;
+        Debug.Log(bullet.GetComponent<Rigidbody2D>().velocity);
         timeSinceLastShot = 0;
     }
 }

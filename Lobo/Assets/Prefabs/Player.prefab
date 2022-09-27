@@ -141,7 +141,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4329040059977146708}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.386, z: 0}
+  m_LocalPosition: {x: 0, y: 0.624, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -198,7 +198,7 @@ MonoBehaviour:
   moveSpeed: 1
   bulletPrefab: {fileID: 1609567541951510432, guid: 2012ca496abf2c744a9f43e783565b23, type: 3}
   cannon: {fileID: 4019904537769520481}
-  bulletSpawnPoint: {fileID: 4329040059977146708}
+  bulletSpawnPoint: {fileID: 5032805137216995592}
 --- !u!61 &5276362008675652035
 BoxCollider2D:
   m_ObjectHideFlags: 0

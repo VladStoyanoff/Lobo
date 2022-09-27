@@ -17,6 +17,7 @@ public class AIController : MonoBehaviour
 
     const int FIRE_RATE = 2;
     const float WAYPOINT_WIDTH = .3f;
+    const float BULLET_SPEED = .5f;
     const int CHASE_RADIUS = 1;
 
     void Awake()
@@ -66,7 +67,8 @@ public class AIController : MonoBehaviour
         // Chase and shoot
         navMeshAgent.destination = player.transform.position;
         if (timeSinceLastShot < FIRE_RATE) return;
-        Instantiate(bulletPrefab, transform.position, Quaternion.Euler(transform.forward));
+        var bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+        bullet.GetComponent<Rigidbody2D>().velocity = (player.transform.position - transform.position).normalized * BULLET_SPEED;
         timeSinceLastShot = 0;
     }
 }
