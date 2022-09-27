@@ -14,7 +14,10 @@ public class AIController : MonoBehaviour
 
     int waypointIndex = 0;
     float timeSinceLastShot = Mathf.Infinity;
+
     const int FIRE_RATE = 2;
+    const float WAYPOINT_WIDTH = .3f;
+    const int CHASE_RADIUS = 1;
 
     void Awake()
     {
@@ -26,6 +29,7 @@ public class AIController : MonoBehaviour
     void Start()
     {
         navMeshAgent.updateUpAxis = navMeshAgent.updateRotation = false;
+        transform.eulerAngles = Vector3.zero;
     }
 
     void Update()
@@ -44,21 +48,19 @@ public class AIController : MonoBehaviour
 
         // Logic that decides when the waypoint should be incremented
         var distanceToWaypoint = Vector3.Distance(transform.position, waypointPosition);
-        var waypointWidth = .3f;
-        if (distanceToWaypoint > waypointWidth) return;
+        if (distanceToWaypoint > WAYPOINT_WIDTH) return;
         waypointIndex++;
 
-        // If last waypoints is reached, restart patrol
+        // If last waypoint is reached, restart patrol
         if (waypointIndex != waypointList.Count) return;
         waypointIndex = 0;
     }
 
     void AttackBehaviour()
     {
-        //Check whether player is in range
-        var stopChasingVariable = 1;
+        // Check whether player is in range
         var distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
-        var isNotInRangeOfPlayer = distanceToPlayer > stopChasingVariable;
+        var isNotInRangeOfPlayer = distanceToPlayer > CHASE_RADIUS;
         if (isNotInRangeOfPlayer) return;
 
         // Chase and shoot
