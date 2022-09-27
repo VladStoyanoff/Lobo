@@ -1,17 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
     InputActions inputActionsScript;
+
+    float timeSinceLastShot = Mathf.Infinity;
+    const int CANNON_ROTATE_SPEED = 50;
+    const int FIRE_RATE = 2;
+
     [SerializeField] float moveSpeed;
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] GameObject cannon;
     [SerializeField] GameObject bulletSpawnPoint;
 
-    const int CANNON_ROTATE_SPEED = 50;
 
     void Awake()
     {
@@ -21,6 +24,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        timeSinceLastShot += Time.deltaTime;
         UpdateMovement();
         TryRotateCannon();
         TryShootProjectile();
@@ -41,13 +45,15 @@ public class PlayerController : MonoBehaviour
     {
         var rotationVector = Vector3.zero;
         rotationVector.z = inputActionsScript.Player.CannonRotation.ReadValue<float>();
-        cannon.transform.eulerAngles += rotationVector * CANNON_ROTATE_SPEED * Time.deltaTime;
+        cannon.transform.localEulerAngles += rotationVector * CANNON_ROTATE_SPEED * Time.deltaTime;
     }
 
     // BUGGY - Fix when you've added the cannon
     void TryShootProjectile()
     {
+        if (timeSinceLastShot < FIRE_RATE) return;
         if (inputActionsScript.Player.Shoot.IsPressed() == false) return;
-        Instantiate(bulletPrefab, bulletSpawnPoint.transform.position, Quaternion.identity);
+        Instantiate(bulletPrefab, bulletSpawnPoint.transform.position, Quaternion.Euler(cannon.transform.localEulerAngles), transform);
+        timeSinceLastShot = 0;
     }
 }

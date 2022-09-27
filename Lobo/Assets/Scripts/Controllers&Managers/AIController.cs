@@ -66,7 +66,7 @@ public class AIController : MonoBehaviour
         // Chase and shoot
         navMeshAgent.destination = player.transform.position;
         if (timeSinceLastShot < FIRE_RATE) return;
-        Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+        Instantiate(bulletPrefab, transform.position, Quaternion.Euler(transform.forward));
         timeSinceLastShot = 0;
     }
 }
