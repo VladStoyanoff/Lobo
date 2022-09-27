@@ -15,6 +15,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "CannonRotation",
+                    "type": "Value",
+                    "id": "e034c3d1-0631-433a-861f-ff70fd54557b",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "Shoot",
                     "type": "Button",
                     "id": "46e12717-02a3-49ce-a6fc-6536a162f80f",
@@ -90,6 +99,39 @@
                     "action": "Shoot",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "1D Vector",
+                    "id": "98a53068-4476-4b52-be01-5111a18fab9e",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CannonRotation",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Negative",
+                    "id": "694f1b7a-7efd-4c86-8104-669d1812a3bb",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CannonRotation",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Positive",
+                    "id": "a9ad91dd-4609-4ead-8ac7-36e831013a78",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CannonRotation",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         }

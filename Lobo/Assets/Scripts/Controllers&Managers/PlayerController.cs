@@ -8,6 +8,10 @@ public class PlayerController : MonoBehaviour
     InputActions inputActionsScript;
     [SerializeField] float moveSpeed;
     [SerializeField] GameObject bulletPrefab;
+    [SerializeField] GameObject cannon;
+    [SerializeField] GameObject bulletSpawnPoint;
+
+    const int CANNON_ROTATE_SPEED = 50;
 
     void Awake()
     {
@@ -18,6 +22,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         UpdateMovement();
+        TryRotateCannon();
         TryShootProjectile();
     }
 
@@ -29,13 +34,20 @@ public class PlayerController : MonoBehaviour
     void UpdateMovement()
     {
         var input = inputActionsScript.Player.Movement.ReadValue<Vector2>();
-        transform.position += new Vector3(input.x, input.y, 0) * Time.deltaTime * moveSpeed;
+        transform.position += new Vector3(input.x, input.y, 0) * moveSpeed * Time.deltaTime;
+    }
+
+    void TryRotateCannon()
+    {
+        var rotationVector = Vector3.zero;
+        rotationVector.z = inputActionsScript.Player.CannonRotation.ReadValue<float>();
+        cannon.transform.eulerAngles += rotationVector * CANNON_ROTATE_SPEED * Time.deltaTime;
     }
 
     // BUGGY - Fix when you've added the cannon
     void TryShootProjectile()
     {
         if (inputActionsScript.Player.Shoot.IsPressed() == false) return;
-        Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+        Instantiate(bulletPrefab, bulletSpawnPoint.transform.position, Quaternion.identity);
     }
 }
