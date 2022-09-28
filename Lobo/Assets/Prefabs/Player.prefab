@@ -259,6 +259,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7238c9b157d648442b186f3935f800e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  radar: {fileID: 0}
+  sprites:
+  - {fileID: 0}
+  - {fileID: 4681919914048940497, guid: ad9d7323f66004f4c87f188832124930, type: 3}
 --- !u!1 &8256491032338710078
 GameObject:
   m_ObjectHideFlags: 0
