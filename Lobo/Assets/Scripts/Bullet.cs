@@ -4,12 +4,23 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+
+    // Refactor: Turn into a switch statement
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Building Block"))
+        if (gameObject.CompareTag("Player Bullet"))
         {
-            Destroy(collision.gameObject);
+            if (collision.CompareTag("Building Block"))
+            {
+                // FIX: Add explosion radius
+                Destroy(collision.gameObject);
+            }
+
+            Destroy(gameObject);
         }
-        Destroy(gameObject);
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 }

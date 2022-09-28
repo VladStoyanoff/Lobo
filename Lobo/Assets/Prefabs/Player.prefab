@@ -157,9 +157,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5721029720014897277}
-  - component: {fileID: 8037534356642777476}
-  - component: {fileID: 5276362008675652035}
   - component: {fileID: -6675445704371738873}
+  - component: {fileID: 5276362008675652035}
+  - component: {fileID: 8037534356642777476}
+  - component: {fileID: 756847515117506318}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -183,22 +184,27 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8037534356642777476
-MonoBehaviour:
+--- !u!50 &-6675445704371738873
+Rigidbody2D:
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8224211522279866959}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 737d2bc3ccb0d5f489dac5a5e8bb5b54, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 1
-  bulletPrefab: {fileID: 1609567541951510432, guid: 2012ca496abf2c744a9f43e783565b23, type: 3}
-  cannon: {fileID: 4019904537769520481}
-  bulletSpawnPoint: {fileID: 5032805137216995592}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!61 &5276362008675652035
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -225,27 +231,34 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!50 &-6675445704371738873
-Rigidbody2D:
-  serializedVersion: 4
+--- !u!114 &8037534356642777476
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8224211522279866959}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 737d2bc3ccb0d5f489dac5a5e8bb5b54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 1
+  bulletPrefab: {fileID: 1609567541951510432, guid: 2012ca496abf2c744a9f43e783565b23, type: 3}
+  cannon: {fileID: 4019904537769520481}
+  bulletSpawnPoint: {fileID: 5032805137216995592}
+--- !u!114 &756847515117506318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8224211522279866959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7238c9b157d648442b186f3935f800e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8256491032338710078
 GameObject:
   m_ObjectHideFlags: 0

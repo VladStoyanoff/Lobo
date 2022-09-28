@@ -54,8 +54,8 @@ public class PlayerController : MonoBehaviour
         if (timeSinceLastShot < FIRE_RATE) return;
         if (inputActionsScript.Player.Shoot.IsPressed() == false) return;
         var bullet = Instantiate(bulletPrefab, bulletSpawnPoint.transform.position, Quaternion.Euler(cannon.transform.localEulerAngles));
+        bullet.tag = "Player Bullet";
         bullet.GetComponent<Rigidbody2D>().velocity = bulletSpawnPoint.up * BULLET_SPEED;
-        Debug.Log(bullet.GetComponent<Rigidbody2D>().velocity);
         timeSinceLastShot = 0;
     }
 }

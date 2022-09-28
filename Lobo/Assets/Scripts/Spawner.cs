@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
+    MazeGenerator mazeGenerator;
+
     [SerializeField] GameObject playerPrefab;
     [SerializeField] GameObject enemyBasePrefab;
-    MazeGenerator mazeGenerator;
+
+    List<GameObject> enemyBases = new List<GameObject>();
 
     void Awake()
     {
@@ -34,8 +37,11 @@ public class Spawner : MonoBehaviour
         {
             var allNodes = mazeGenerator.GetMazeNodesList();
             var randomNode = allNodes[Random.Range(0, allNodes.Count)];
-            Instantiate(enemyBasePrefab, randomNode.GetMazeNodePosition(), Quaternion.identity, transform);
             allNodes.Remove(randomNode);
+            var enemyBase = Instantiate(enemyBasePrefab, randomNode.GetMazeNodePosition(), Quaternion.identity, transform);
+            enemyBases.Add(enemyBase);
         }
     }
+
+    public List<GameObject> GetEnemyBases() => enemyBases;
 }

@@ -68,7 +68,10 @@ public class AIController : MonoBehaviour
         navMeshAgent.destination = player.transform.position;
         if (timeSinceLastShot < FIRE_RATE) return;
         var bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+        bullet.tag = "Enemy Bullet";
         bullet.GetComponent<Rigidbody2D>().velocity = (player.transform.position - transform.position).normalized * BULLET_SPEED;
         timeSinceLastShot = 0;
+
+        // REFACTOR ^^ You can probably figure out a way to turn this into a general method and pass it to each controller
     }
 }
