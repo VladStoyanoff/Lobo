@@ -263,6 +263,8 @@ MonoBehaviour:
   sprites:
   - {fileID: 0}
   - {fileID: 4681919914048940497, guid: ad9d7323f66004f4c87f188832124930, type: 3}
+  radarRadius: 3
+  cannon: {fileID: 4019904537769520481}
 --- !u!1 &8256491032338710078
 GameObject:
   m_ObjectHideFlags: 0
