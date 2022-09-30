@@ -2,34 +2,50 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Navigation : MonoBehaviour
 {
 
     List<GameObject> enemyBases = new List<GameObject>();
+    [SerializeField] RawImage[] rawImageArray;
 
     Spawner spawner;
 
     const int PI = 180;
 
-    [SerializeField] GameObject radar;
-    [SerializeField] List<SpriteRenderer> sprites;
+    [SerializeField] GameObject cannon;
     [SerializeField] int radarRadius = 3;
 
-    [SerializeField] GameObject cannon;
+    Color black = Color.black;
+    Color green = Color.green;
 
     bool baseToTheNorth;
+    bool baseToTheNorthwest;
+    bool baseToTheWest;
+    bool baseToTheSouthwest;
+    bool baseToTheSouth;
+    bool baseToTheSoutheast;
+    bool baseToTheEast;
+    bool baseToTheNortheast;
 
     void Awake()
     {
         spawner = FindObjectOfType<Spawner>();
     }
 
+    void Start()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            rawImageArray[i].color = black;
+        }
+    }
+
     void Update()
     {
         UpdateRadarForAllBases();
         UpdateCannonDirectionRadar();
-        UpdatePlayerLocation();
     }
 
     //Debug.Log(vectorToEnemyBase);
@@ -48,6 +64,15 @@ public class Navigation : MonoBehaviour
         enemyBases = spawner.GetEnemyBases();
         var vectorLengthList = new List<float>();
 
+        if (baseToTheNorth == true) baseToTheNorth = false;
+        if (baseToTheNorthwest == true) baseToTheNorthwest = false;
+        if (baseToTheWest == true) baseToTheWest = false;
+        if (baseToTheSouthwest == true) baseToTheSouthwest = false;
+        if (baseToTheSouth == true) baseToTheSouth = false;
+        if (baseToTheSoutheast == true) baseToTheSoutheast = false;
+        if (baseToTheEast == true) baseToTheEast = false;
+        if (baseToTheNortheast == true) baseToTheNortheast = false;
+
         // Find distances to all enemy bases and add them to a list. If the distance is beyond the radar's range dont try to locate the base
         for (int i = 0; i < enemyBases.Count; i++)
         {
@@ -58,18 +83,70 @@ public class Navigation : MonoBehaviour
             UpdateRadarForSingleBase(i, radarRadius);
         }
 
-        //if (baseToTheNorth == false)
-        //{
-        //    deactivateSprite;
-        //}
-
-        //baseToTheNorth = false;
+        ManageColorsForRadar();
 
         //// If the radar hasnt located a single base, locate the closest one to the player.
         //if (allSpritesBlack == false) return;
         //var closestenemybase = vectorLengthList.Min();
         //var index = vectorLengthList.IndexOf(closestenemybase);
         //UpdateRadarForSingleBase(index, Mathf.Infinity);
+    }
+
+    void ManageColorsForRadar()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            rawImageArray[i].color = black;
+        }
+
+        if (baseToTheNorth)
+        {
+            ActivateSprite(rawImageArray[0], rawImageArray[1]);
+        }
+
+        if (baseToTheEast)
+        {
+            ActivateSprite(rawImageArray[1], rawImageArray[3]);
+        }
+
+        if (baseToTheWest)
+        {
+            ActivateSprite(rawImageArray[0], rawImageArray[2]);
+        }
+
+        if (baseToTheSouth)
+        {
+            ActivateSprite(rawImageArray[2], rawImageArray[3]);
+        }
+
+        if (baseToTheNortheast)
+        {
+            ActivateSprite(rawImageArray[1], null);
+        }
+
+        if (baseToTheNorthwest)
+        {
+            ActivateSprite(rawImageArray[0], null);
+        }
+
+        if (baseToTheSoutheast)
+        {
+            ActivateSprite(rawImageArray[3], null);
+        }
+
+        if (baseToTheSouthwest)
+        {
+            ActivateSprite(rawImageArray[2], null);
+        }
+    }
+
+    void ActivateSprite(RawImage imageOne, RawImage imageTwo)
+    {
+        imageOne.color = green;
+        if (imageTwo != null)
+        {
+            imageTwo.color = green;
+        }
     }
 
     void UpdateRadarForSingleBase(int index, float radarRadius)
@@ -86,20 +163,8 @@ public class Navigation : MonoBehaviour
 
         {
             Debug.Log("east!");
+            baseToTheEast = true;
         }
-
-        if (vectorToEnemyBase.x > 0 &&
-            vectorToEnemyBase.x < Mathf.Sqrt(3f) / 2f * radarRadius &&
-            vectorToEnemyBase.y > 0 &&
-            vectorToEnemyBase.y < Mathf.Sqrt(3f) / 2f * radarRadius &&
-            angle > PI / 6 &&
-            angle < PI / 3)
-
-        {
-            var activatedSprite = true;
-            Debug.Log("northeast!");
-        }
-        
 
         if (vectorToEnemyBase.x < 1f / 2f * radarRadius &&
             vectorToEnemyBase.x > -1f / 2f * radarRadius &&
@@ -113,6 +178,31 @@ public class Navigation : MonoBehaviour
             baseToTheNorth = true;
         }
 
+        if (vectorToEnemyBase.x > 0 &&
+            vectorToEnemyBase.x < Mathf.Sqrt(3f) / 2f * radarRadius &&
+            vectorToEnemyBase.y < 0 &&
+            vectorToEnemyBase.y > -Mathf.Sqrt(3f) / 2f * radarRadius &&
+            angle > PI / 6 &&
+            angle < PI / 3)
+
+        {
+            Debug.Log("southeast!");
+            baseToTheSoutheast = true;
+        }
+
+        if (vectorToEnemyBase.x > 0 &&
+            vectorToEnemyBase.x < Mathf.Sqrt(3f) / 2f * radarRadius &&
+            vectorToEnemyBase.y > 0 &&
+            vectorToEnemyBase.y < Mathf.Sqrt(3f) / 2f * radarRadius &&
+            angle > PI / 6 &&
+            angle < PI / 3)
+
+        {
+            Debug.Log("northeast!");
+            baseToTheNortheast = true;
+        }
+       
+
         if (vectorToEnemyBase.x < 0 &&
             vectorToEnemyBase.x > -Mathf.Sqrt(3f) / 2f * radarRadius &&
             vectorToEnemyBase.y > 0 &&
@@ -122,6 +212,7 @@ public class Navigation : MonoBehaviour
 
         {
             Debug.Log("northwest!");
+            baseToTheNorthwest = true;
         }
 
         if (vectorToEnemyBase.x < 0 &&
@@ -133,6 +224,7 @@ public class Navigation : MonoBehaviour
 
         {
             Debug.Log("west!");
+            baseToTheWest = true;
         }
 
         if (vectorToEnemyBase.x < 0 &&
@@ -144,6 +236,7 @@ public class Navigation : MonoBehaviour
 
         {
             Debug.Log("southwest!");
+            baseToTheSouthwest = true;
         }
 
         if (vectorToEnemyBase.x < 1f / 2f * radarRadius &&
@@ -155,65 +248,51 @@ public class Navigation : MonoBehaviour
 
         {
             Debug.Log("south!");
+            baseToTheSouth = true;
         }
 
-        if (vectorToEnemyBase.x > 0 &&
-            vectorToEnemyBase.x < Mathf.Sqrt(3f) / 2f * radarRadius &&
-            vectorToEnemyBase.y < 0 &&
-            vectorToEnemyBase.y > -Mathf.Sqrt(3f) / 2f * radarRadius &&
-            angle > PI / 6 &&
-            angle < PI / 3)
-
-        {
-            Debug.Log("southeast!");
-        }
     }
 
     void UpdateCannonDirectionRadar()
     {
-        if (cannon.transform.localEulerAngles.z < PI / 6 || cannon.transform.localEulerAngles.z > 11*PI / 6)
-        {
-            Debug.Log("12");
-        }
+        //if (cannon.transform.localEulerAngles.z < PI / 6 || cannon.transform.localEulerAngles.z > 11*PI / 6)
+        //{
+        //    Debug.Log("12");
+        //}
 
-        if (cannon.transform.localEulerAngles.z > PI / 6 && cannon.transform.localEulerAngles.z < PI / 3)
-        {
-            Debug.Log("1030");
-        }
+        //if (cannon.transform.localEulerAngles.z > PI / 6 && cannon.transform.localEulerAngles.z < PI / 3)
+        //{
+        //    Debug.Log("1030");
+        //}
 
-        if (cannon.transform.localEulerAngles.z > PI / 3 && cannon.transform.localEulerAngles.z < 2 * PI / 3)
-        {
-            Debug.Log("9");
-        }
+        //if (cannon.transform.localEulerAngles.z > PI / 3 && cannon.transform.localEulerAngles.z < 2 * PI / 3)
+        //{
+        //    Debug.Log("9");
+        //}
 
-        if (cannon.transform.localEulerAngles.z > 2 * PI / 3 && cannon.transform.localEulerAngles.z < 5 * PI / 6)
-        {
-            Debug.Log("730");
-        }
+        //if (cannon.transform.localEulerAngles.z > 2 * PI / 3 && cannon.transform.localEulerAngles.z < 5 * PI / 6)
+        //{
+        //    Debug.Log("730");
+        //}
 
-        if (cannon.transform.localEulerAngles.z > 5 * PI / 6 && cannon.transform.localEulerAngles.z < 7 * PI / 6)
-        {
-            Debug.Log("6");
-        }
+        //if (cannon.transform.localEulerAngles.z > 5 * PI / 6 && cannon.transform.localEulerAngles.z < 7 * PI / 6)
+        //{
+        //    Debug.Log("6");
+        //}
 
-        if (cannon.transform.localEulerAngles.z > 7 * PI/6 && cannon.transform.localEulerAngles.z < 4 * PI / 3)
-        {
-            Debug.Log("430");
-        }
+        //if (cannon.transform.localEulerAngles.z > 7 * PI/6 && cannon.transform.localEulerAngles.z < 4 * PI / 3)
+        //{
+        //    Debug.Log("430");
+        //}
 
-        if (cannon.transform.localEulerAngles.z > 4*PI/3 && cannon.transform.localEulerAngles.z < 5*PI / 3)
-        {
-            Debug.Log("3");
-        }
+        //if (cannon.transform.localEulerAngles.z > 4*PI/3 && cannon.transform.localEulerAngles.z < 5*PI / 3)
+        //{
+        //    Debug.Log("3");
+        //}
 
-        if(cannon.transform.localEulerAngles.z > 5*PI/3 && cannon.transform.localEulerAngles.z < 11*PI / 6)
-        {
-            Debug.Log("130");
-        }
-    }
-
-    void UpdatePlayerLocation()
-    {
-
+        //if(cannon.transform.localEulerAngles.z > 5*PI/3 && cannon.transform.localEulerAngles.z < 11*PI / 6)
+        //{
+        //    Debug.Log("130");
+        //}
     }
 }

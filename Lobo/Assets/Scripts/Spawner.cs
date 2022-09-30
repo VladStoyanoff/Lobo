@@ -27,7 +27,9 @@ public class Spawner : MonoBehaviour
         var allNodes = mazeGenerator.GetMazeNodesList();
         var spawnPlayerHere = allNodes[Random.Range(0, allNodes.Count)];
 
-        Instantiate(playerPrefab, spawnPlayerHere.GetMazeNodePosition(), Quaternion.identity);
+        playerPrefab.transform.position = spawnPlayerHere.transform.position;
+
+        //Instantiate(playerPrefab, spawnPlayerHere.GetMazeNodePosition(), Quaternion.identity);
         allNodes.Remove(spawnPlayerHere);
     }
 
