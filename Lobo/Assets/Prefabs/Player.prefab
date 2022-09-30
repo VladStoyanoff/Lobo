@@ -362,6 +362,7 @@ GameObject:
   - component: {fileID: 5276362008675652035}
   - component: {fileID: 8037534356642777476}
   - component: {fileID: 756847515117506318}
+  - component: {fileID: 687829492191464999}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -461,12 +462,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7238c9b157d648442b186f3935f800e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radar: {fileID: 0}
-  sprites:
+  radarRawImageArray:
   - {fileID: 0}
-  - {fileID: 4681919914048940497, guid: ad9d7323f66004f4c87f188832124930, type: 3}
-  radarRadius: 3
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  cannonRotationRawImageArray:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   cannon: {fileID: 4019904537769520481}
+  radarRadius: 3
+--- !u!114 &687829492191464999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8224211522279866959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1eccee2e8a399a40b1df11afd8c351d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fuelTank: {fileID: 0}
 --- !u!1 &8256491032338710078
 GameObject:
   m_ObjectHideFlags: 0

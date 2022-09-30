@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -11,11 +12,12 @@ public class PlayerController : MonoBehaviour
     const float BULLET_SPEED = .5f;
     const int FIRE_RATE = 2;
 
+    Vector2 movementInput;
+
     [SerializeField] float moveSpeed;
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] GameObject cannon;
     [SerializeField] Transform bulletSpawnPoint;
-
 
     void Awake()
     {
@@ -38,8 +40,8 @@ public class PlayerController : MonoBehaviour
 
     void UpdateMovement()
     {
-        var input = inputActionsScript.Player.Movement.ReadValue<Vector2>();
-        transform.position += new Vector3(input.x, input.y, 0) * moveSpeed * Time.deltaTime;
+        movementInput = inputActionsScript.Player.Movement.ReadValue<Vector2>();
+        transform.position += new Vector3(movementInput.x, movementInput.y, 0) * moveSpeed * Time.deltaTime;
     }
 
     void TryRotateCannon()
@@ -58,4 +60,6 @@ public class PlayerController : MonoBehaviour
         bullet.GetComponent<Rigidbody2D>().velocity = bulletSpawnPoint.up * BULLET_SPEED;
         timeSinceLastShot = 0;
     }
+
+    public Vector2 GetMovementInput() => movementInput;
 }
