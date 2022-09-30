@@ -8,7 +8,8 @@ public class Navigation : MonoBehaviour
 {
 
     List<GameObject> enemyBases = new List<GameObject>();
-    [SerializeField] RawImage[] rawImageArray;
+    [SerializeField] RawImage[] radarRawImageArray;
+    [SerializeField] RawImage[] cannonRotationRawImageArray;
 
     Spawner spawner;
 
@@ -38,7 +39,7 @@ public class Navigation : MonoBehaviour
     {
         for (int i = 0; i < 4; i++)
         {
-            rawImageArray[i].color = black;
+            radarRawImageArray[i].color = black;
         }
     }
 
@@ -96,47 +97,47 @@ public class Navigation : MonoBehaviour
     {
         for (int i = 0; i < 4; i++)
         {
-            rawImageArray[i].color = black;
+            radarRawImageArray[i].color = black;
         }
 
         if (baseToTheNorth)
         {
-            ActivateSprite(rawImageArray[0], rawImageArray[1]);
+            ActivateSprite(radarRawImageArray[0], radarRawImageArray[1]);
         }
 
         if (baseToTheEast)
         {
-            ActivateSprite(rawImageArray[1], rawImageArray[3]);
+            ActivateSprite(radarRawImageArray[1], radarRawImageArray[3]);
         }
 
         if (baseToTheWest)
         {
-            ActivateSprite(rawImageArray[0], rawImageArray[2]);
+            ActivateSprite(radarRawImageArray[0], radarRawImageArray[2]);
         }
 
         if (baseToTheSouth)
         {
-            ActivateSprite(rawImageArray[2], rawImageArray[3]);
+            ActivateSprite(radarRawImageArray[2], radarRawImageArray[3]);
         }
 
         if (baseToTheNortheast)
         {
-            ActivateSprite(rawImageArray[1], null);
+            ActivateSprite(radarRawImageArray[1], null);
         }
 
         if (baseToTheNorthwest)
         {
-            ActivateSprite(rawImageArray[0], null);
+            ActivateSprite(radarRawImageArray[0], null);
         }
 
         if (baseToTheSoutheast)
         {
-            ActivateSprite(rawImageArray[3], null);
+            ActivateSprite(radarRawImageArray[3], null);
         }
 
         if (baseToTheSouthwest)
         {
-            ActivateSprite(rawImageArray[2], null);
+            ActivateSprite(radarRawImageArray[2], null);
         }
     }
 
@@ -255,44 +256,83 @@ public class Navigation : MonoBehaviour
 
     void UpdateCannonDirectionRadar()
     {
-        //if (cannon.transform.localEulerAngles.z < PI / 6 || cannon.transform.localEulerAngles.z > 11*PI / 6)
-        //{
-        //    Debug.Log("12");
-        //}
+        if (cannon.transform.localEulerAngles.z < PI / 6 || cannon.transform.localEulerAngles.z > 11 * PI / 6)
+        {
+            Debug.Log("12");
+            for (int i = 0; i < cannonRotationRawImageArray.Length; i++)
+            {
+                cannonRotationRawImageArray[i].gameObject.SetActive(false);
+            }
+        }
 
-        //if (cannon.transform.localEulerAngles.z > PI / 6 && cannon.transform.localEulerAngles.z < PI / 3)
-        //{
-        //    Debug.Log("1030");
-        //}
+        if (cannon.transform.localEulerAngles.z > PI / 6 && cannon.transform.localEulerAngles.z < PI / 3)
+        {
+            Debug.Log("1030");
+            for (int i = 0; i < cannonRotationRawImageArray.Length; i++)
+            {
+                cannonRotationRawImageArray[i].gameObject.SetActive(false);
+            }
+            cannonRotationRawImageArray[0].gameObject.SetActive(true);
+        }
 
-        //if (cannon.transform.localEulerAngles.z > PI / 3 && cannon.transform.localEulerAngles.z < 2 * PI / 3)
-        //{
-        //    Debug.Log("9");
-        //}
+        if (cannon.transform.localEulerAngles.z > PI / 3 && cannon.transform.localEulerAngles.z < 2 * PI / 3)
+        {
+            Debug.Log("9");
+            for (int i = 0; i < cannonRotationRawImageArray.Length; i++)
+            {
+                cannonRotationRawImageArray[i].gameObject.SetActive(false);
+            }
+            cannonRotationRawImageArray[1].gameObject.SetActive(true);
+        }
 
-        //if (cannon.transform.localEulerAngles.z > 2 * PI / 3 && cannon.transform.localEulerAngles.z < 5 * PI / 6)
-        //{
-        //    Debug.Log("730");
-        //}
+        if (cannon.transform.localEulerAngles.z > 2 * PI / 3 && cannon.transform.localEulerAngles.z < 5 * PI / 6)
+        {
+            Debug.Log("730");
+            for (int i = 0; i < cannonRotationRawImageArray.Length; i++)
+            {
+                cannonRotationRawImageArray[i].gameObject.SetActive(false);
+            }
+            cannonRotationRawImageArray[2].gameObject.SetActive(true);
+        }
 
-        //if (cannon.transform.localEulerAngles.z > 5 * PI / 6 && cannon.transform.localEulerAngles.z < 7 * PI / 6)
-        //{
-        //    Debug.Log("6");
-        //}
+        if (cannon.transform.localEulerAngles.z > 5 * PI / 6 && cannon.transform.localEulerAngles.z < 7 * PI / 6)
+        {
+            Debug.Log("6");
+            for (int i = 0; i < cannonRotationRawImageArray.Length; i++)
+            {
+                cannonRotationRawImageArray[i].gameObject.SetActive(false);
+            }
+            cannonRotationRawImageArray[3].gameObject.SetActive(true);
+        }
 
-        //if (cannon.transform.localEulerAngles.z > 7 * PI/6 && cannon.transform.localEulerAngles.z < 4 * PI / 3)
-        //{
-        //    Debug.Log("430");
-        //}
+        if (cannon.transform.localEulerAngles.z > 7 * PI / 6 && cannon.transform.localEulerAngles.z < 4 * PI / 3)
+        {
+            Debug.Log("430");
+            for (int i = 0; i < cannonRotationRawImageArray.Length; i++)
+            {
+                cannonRotationRawImageArray[i].gameObject.SetActive(false);
+            }
+            cannonRotationRawImageArray[4].gameObject.SetActive(true);
+        }
 
-        //if (cannon.transform.localEulerAngles.z > 4*PI/3 && cannon.transform.localEulerAngles.z < 5*PI / 3)
-        //{
-        //    Debug.Log("3");
-        //}
+        if (cannon.transform.localEulerAngles.z > 4 * PI / 3 && cannon.transform.localEulerAngles.z < 5 * PI / 3)
+        {
+            Debug.Log("3");
+            for (int i = 0; i < cannonRotationRawImageArray.Length; i++)
+            {
+                cannonRotationRawImageArray[i].gameObject.SetActive(false);
+            }
+            cannonRotationRawImageArray[5].gameObject.SetActive(true);
+        }
 
-        //if(cannon.transform.localEulerAngles.z > 5*PI/3 && cannon.transform.localEulerAngles.z < 11*PI / 6)
-        //{
-        //    Debug.Log("130");
-        //}
+        if (cannon.transform.localEulerAngles.z > 5 * PI / 3 && cannon.transform.localEulerAngles.z < 11 * PI / 6)
+        {
+            Debug.Log("130");
+            for (int i = 0; i < cannonRotationRawImageArray.Length; i++)
+            {
+                cannonRotationRawImageArray[i].gameObject.SetActive(false);
+            }
+            cannonRotationRawImageArray[6].gameObject.SetActive(true);
+        }
     }
 }
