@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -14,6 +13,10 @@ public class PlayerController : MonoBehaviour
 
     Vector2 movementInput;
 
+    GameManager gameManager;
+    Spawner spawner;
+    CameraManager cameraManager;
+
     [SerializeField] float moveSpeed;
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] GameObject cannon;
@@ -23,6 +26,10 @@ public class PlayerController : MonoBehaviour
     {
         inputActionsScript = new InputActions();
         inputActionsScript.Player.Enable();
+
+        gameManager = FindObjectOfType<GameManager>();
+        spawner = FindObjectOfType<Spawner>();
+        cameraManager = FindObjectOfType<CameraManager>();
     }
 
     void Update()
@@ -33,10 +40,11 @@ public class PlayerController : MonoBehaviour
         TryShootProjectile();
     }
 
-    //void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    Destroy(gameObject);
-    //}
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        gameManager.ReduceLives();
+        spawner.SpawnPlayer();
+    }
 
     void UpdateMovement()
     {

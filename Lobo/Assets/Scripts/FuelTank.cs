@@ -13,6 +13,7 @@ public class FuelTank : MonoBehaviour
     void Start()
     {
         playerController = GetComponent<PlayerController>();
+        fuelTank = GameObject.FindGameObjectWithTag("UI").transform.GetChild(1).GetChild(4).GetChild(0).GetChild(0).GetComponent<Image>();
     }
 
     void Update()

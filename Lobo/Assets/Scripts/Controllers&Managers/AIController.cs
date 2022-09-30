@@ -60,6 +60,7 @@ public class AIController : MonoBehaviour
     void AttackBehaviour()
     {
         // Check whether player is in range
+        if (player == null) return;
         var distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
         var isNotInRangeOfPlayer = distanceToPlayer > CHASE_RADIUS;
         if (isNotInRangeOfPlayer) return;

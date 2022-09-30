@@ -5,6 +5,7 @@ using UnityEngine;
 public class Spawner : MonoBehaviour
 {
     MazeGenerator mazeGenerator;
+    GameManager gameManager;
 
     [SerializeField] GameObject playerPrefab;
     [SerializeField] GameObject enemyBasePrefab;
@@ -14,6 +15,7 @@ public class Spawner : MonoBehaviour
     void Awake()
     {
         mazeGenerator = FindObjectOfType<MazeGenerator>();
+        gameManager = FindObjectOfType<GameManager>();
     }
 
     void Start()
@@ -22,14 +24,18 @@ public class Spawner : MonoBehaviour
         SpawnEnemyBases();
     }
 
-    void SpawnPlayer()
+    public void SpawnPlayer()
     {
         var allNodes = mazeGenerator.GetMazeNodesList();
         var spawnPlayerHere = allNodes[Random.Range(0, allNodes.Count)];
-
-        playerPrefab.transform.position = spawnPlayerHere.transform.position;
-
-        //Instantiate(playerPrefab, spawnPlayerHere.GetMazeNodePosition(), Quaternion.identity);
+        if (FindObjectOfType<PlayerController>() == null)
+        {
+            Instantiate(playerPrefab, spawnPlayerHere.transform.position, Quaternion.identity);
+        }
+        else
+        {
+            playerPrefab.transform.position = spawnPlayerHere.transform.position;
+        }
         allNodes.Remove(spawnPlayerHere);
     }
 

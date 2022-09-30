@@ -37,9 +37,17 @@ public class Navigation : MonoBehaviour
 
     void Start()
     {
+        var navigationpanel = GameObject.FindGameObjectWithTag("UI").transform.GetChild(1);
+
         for (int i = 0; i < 4; i++)
         {
+            radarRawImageArray[i] = navigationpanel.GetChild(5).GetChild(i).GetComponent<RawImage>();
             radarRawImageArray[i].color = black;
+        }
+
+        for (int i=0; i < 7; i++)
+        {
+            cannonRotationRawImageArray[i] = navigationpanel.GetChild(6).GetChild(0).GetChild(0).GetChild(i + 1).GetComponent<RawImage>();
         }
     }
 
@@ -163,7 +171,6 @@ public class Navigation : MonoBehaviour
             angle < PI / 6)
 
         {
-            Debug.Log("east!");
             baseToTheEast = true;
         }
 
@@ -175,7 +182,6 @@ public class Navigation : MonoBehaviour
             angle < 2 * PI / 3f)
 
         {
-            Debug.Log("north!");
             baseToTheNorth = true;
         }
 
@@ -187,7 +193,6 @@ public class Navigation : MonoBehaviour
             angle < PI / 3)
 
         {
-            Debug.Log("southeast!");
             baseToTheSoutheast = true;
         }
 
@@ -199,7 +204,6 @@ public class Navigation : MonoBehaviour
             angle < PI / 3)
 
         {
-            Debug.Log("northeast!");
             baseToTheNortheast = true;
         }
        
@@ -212,7 +216,6 @@ public class Navigation : MonoBehaviour
             angle < 5 * PI / 6)
 
         {
-            Debug.Log("northwest!");
             baseToTheNorthwest = true;
         }
 
@@ -224,7 +227,6 @@ public class Navigation : MonoBehaviour
             angle > 5 * PI / 6)
 
         {
-            Debug.Log("west!");
             baseToTheWest = true;
         }
 
@@ -236,7 +238,6 @@ public class Navigation : MonoBehaviour
             angle < 5 * PI / 6)
 
         {
-            Debug.Log("southwest!");
             baseToTheSouthwest = true;
         }
 
@@ -248,7 +249,6 @@ public class Navigation : MonoBehaviour
             angle < 2 * PI / 3f)
 
         {
-            Debug.Log("south!");
             baseToTheSouth = true;
         }
 
@@ -258,7 +258,6 @@ public class Navigation : MonoBehaviour
     {
         if (cannon.transform.localEulerAngles.z < PI / 6 || cannon.transform.localEulerAngles.z > 11 * PI / 6)
         {
-            Debug.Log("12");
             for (int i = 0; i < cannonRotationRawImageArray.Length; i++)
             {
                 cannonRotationRawImageArray[i].gameObject.SetActive(false);
@@ -267,7 +266,6 @@ public class Navigation : MonoBehaviour
 
         if (cannon.transform.localEulerAngles.z > PI / 6 && cannon.transform.localEulerAngles.z < PI / 3)
         {
-            Debug.Log("1030");
             for (int i = 0; i < cannonRotationRawImageArray.Length; i++)
             {
                 cannonRotationRawImageArray[i].gameObject.SetActive(false);
@@ -277,7 +275,6 @@ public class Navigation : MonoBehaviour
 
         if (cannon.transform.localEulerAngles.z > PI / 3 && cannon.transform.localEulerAngles.z < 2 * PI / 3)
         {
-            Debug.Log("9");
             for (int i = 0; i < cannonRotationRawImageArray.Length; i++)
             {
                 cannonRotationRawImageArray[i].gameObject.SetActive(false);
@@ -287,7 +284,6 @@ public class Navigation : MonoBehaviour
 
         if (cannon.transform.localEulerAngles.z > 2 * PI / 3 && cannon.transform.localEulerAngles.z < 5 * PI / 6)
         {
-            Debug.Log("730");
             for (int i = 0; i < cannonRotationRawImageArray.Length; i++)
             {
                 cannonRotationRawImageArray[i].gameObject.SetActive(false);
@@ -297,7 +293,6 @@ public class Navigation : MonoBehaviour
 
         if (cannon.transform.localEulerAngles.z > 5 * PI / 6 && cannon.transform.localEulerAngles.z < 7 * PI / 6)
         {
-            Debug.Log("6");
             for (int i = 0; i < cannonRotationRawImageArray.Length; i++)
             {
                 cannonRotationRawImageArray[i].gameObject.SetActive(false);
@@ -307,7 +302,6 @@ public class Navigation : MonoBehaviour
 
         if (cannon.transform.localEulerAngles.z > 7 * PI / 6 && cannon.transform.localEulerAngles.z < 4 * PI / 3)
         {
-            Debug.Log("430");
             for (int i = 0; i < cannonRotationRawImageArray.Length; i++)
             {
                 cannonRotationRawImageArray[i].gameObject.SetActive(false);
@@ -317,7 +311,6 @@ public class Navigation : MonoBehaviour
 
         if (cannon.transform.localEulerAngles.z > 4 * PI / 3 && cannon.transform.localEulerAngles.z < 5 * PI / 3)
         {
-            Debug.Log("3");
             for (int i = 0; i < cannonRotationRawImageArray.Length; i++)
             {
                 cannonRotationRawImageArray[i].gameObject.SetActive(false);
@@ -327,7 +320,6 @@ public class Navigation : MonoBehaviour
 
         if (cannon.transform.localEulerAngles.z > 5 * PI / 3 && cannon.transform.localEulerAngles.z < 11 * PI / 6)
         {
-            Debug.Log("130");
             for (int i = 0; i < cannonRotationRawImageArray.Length; i++)
             {
                 cannonRotationRawImageArray[i].gameObject.SetActive(false);
