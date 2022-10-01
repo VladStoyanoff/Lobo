@@ -45,7 +45,12 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (gameManager.GetCollidedBool()) return; 
+        RestartPlayerPosition();
+    }
+
+    public void RestartPlayerPosition()
+    {
+        if (gameManager.GetCollidedBool()) return;
         gameManager.ReduceLives();
         spawner.SpawnPlayer();
     }

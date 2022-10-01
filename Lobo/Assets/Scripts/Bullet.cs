@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-
+    [SerializeField] float explosionRadius = .05f;
     // Refactor: Turn into a switch statement
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (gameObject.CompareTag("Player Bullet"))
         {
-            var colliders = Physics2D.OverlapCircleAll(transform.position, .05f);
+            var colliders = Physics2D.OverlapCircleAll(transform.position, explosionRadius);
             if (collision.CompareTag("Building Block"))
             {
                 foreach(var col in colliders)

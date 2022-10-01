@@ -20,6 +20,10 @@ public class FuelTank : MonoBehaviour
     {
         if (playerController.GetMovementInput() == new Vector2(0, 0)) return;
         fuelTank.fillAmount -= fillAmount;
+        if (fuelTank.fillAmount <= 0)
+        {
+            playerController.RestartPlayerPosition();
+        }
     }
 
     public void RefillTank()

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,12 +17,17 @@ public class EnemyBase : MonoBehaviour
 
     void Start()
     {
+        GameManager.OnGameStarted += GameManager_OnGameStarted;
+    }
+
+    void GameManager_OnGameStarted(object sender, EventArgs e)
+    {
         StartCoroutine(SpawnEnemies());
     }
 
     IEnumerator SpawnEnemies()
     {
-        var index = Random.Range(0, enemyUnitPrefabs.Length);
+        var index = UnityEngine.Random.Range(0, enemyUnitPrefabs.Length);
         while (gameManager.GetIsGameActiveBool())
         {
             Instantiate(enemyUnitPrefabs[index], transform.position, Quaternion.identity, transform);
