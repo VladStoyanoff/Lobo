@@ -10,17 +10,27 @@ public class Bullet : MonoBehaviour
     {
         if (gameObject.CompareTag("Player Bullet"))
         {
+            var colliders = Physics2D.OverlapCircleAll(transform.position, .05f);
             if (collision.CompareTag("Building Block"))
             {
-                // FIX: Add explosion radius
-                Destroy(collision.gameObject);
+                foreach(var col in colliders)
+                {
+                    Destroy(col.gameObject);
+                }
+
             }
 
             else if (collision.CompareTag("Enemy"))
             {
-                Destroy(collision.gameObject);
+                foreach (var col in colliders)
+                {
+                    Destroy(col.gameObject);
+                }
             }
-
+            foreach (var col in colliders)
+            {
+                Destroy(col.gameObject);
+            }
             Destroy(gameObject);
         }
         else if (gameObject.CompareTag("Enemy Bullet"))
