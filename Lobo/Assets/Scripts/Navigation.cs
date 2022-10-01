@@ -1,4 +1,5 @@
 using System.Collections;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -37,6 +38,7 @@ public class Navigation : MonoBehaviour
 
     void Start()
     {
+        GameManager.OnGameStarted += GameManager_OnGameStarted;
         var navigationpanel = GameObject.FindGameObjectWithTag("UI").transform.GetChild(1);
 
         for (int i = 0; i < 4; i++)
@@ -49,6 +51,11 @@ public class Navigation : MonoBehaviour
         {
             cannonRotationRawImageArray[i] = navigationpanel.GetChild(6).GetChild(0).GetChild(0).GetChild(i + 1).GetComponent<RawImage>();
         }
+    }
+
+    void GameManager_OnGameStarted(object sender, EventArgs e)
+    {
+
     }
 
     void Update()

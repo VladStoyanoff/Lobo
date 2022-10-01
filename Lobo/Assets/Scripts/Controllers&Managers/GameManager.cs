@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class GameManager : MonoBehaviour
     int playerLives = 4;
     [SerializeField] GameObject playerLivesIndicator;
     [SerializeField] GameObject menuPanel;
+    [SerializeField] Image coverImage;
 
     public static event EventHandler OnGameStarted;
 
@@ -60,6 +62,7 @@ public class GameManager : MonoBehaviour
                 playerLivesIndicator.transform.GetChild(i).gameObject.SetActive(true);
                 playerLives = 4;
             }
+            coverImage.gameObject.SetActive(true);
         }
     }
 
@@ -73,6 +76,7 @@ public class GameManager : MonoBehaviour
         if (inputActionsScript.Game.StartGame.IsPressed() == false) return;
         menuPanel.SetActive(false);
         if (isGameActive == false) OnGameStarted?.Invoke(this, EventArgs.Empty);
+        coverImage.gameObject.SetActive(false);
         isGameActive = true;
     }
 
