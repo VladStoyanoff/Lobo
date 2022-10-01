@@ -41,7 +41,7 @@ public class Spawner : MonoBehaviour
 
     void SpawnEnemyBases()
     {
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < 1; i++)
         {
             var allNodes = mazeGenerator.GetMazeNodesList();
             var randomNode = allNodes[Random.Range(0, allNodes.Count)];

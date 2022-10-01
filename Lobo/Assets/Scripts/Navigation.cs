@@ -94,11 +94,21 @@ public class Navigation : MonoBehaviour
 
         ManageColorsForRadar();
 
-        //// If the radar hasnt located a single base, locate the closest one to the player.
-        //if (allSpritesBlack == false) return;
-        //var closestenemybase = vectorLengthList.Min();
-        //var index = vectorLengthList.IndexOf(closestenemybase);
-        //UpdateRadarForSingleBase(index, Mathf.Infinity);
+        // If the radar hasnt located a single base, locate the closest one to the player.
+        if (baseToTheNorth == false && 
+            baseToTheNorthwest == false &&
+            baseToTheWest == false &&
+            baseToTheSouthwest == false &&
+            baseToTheSouth == false &&
+            baseToTheSoutheast  == false &&
+            baseToTheEast == false &&
+            baseToTheNortheast == false)
+        {
+            var closestenemybase = vectorLengthList.Min();
+            var index = vectorLengthList.IndexOf(closestenemybase);
+            UpdateRadarForSingleBase(index, Mathf.Infinity);
+            ManageColorsForRadar();
+        }
     }
 
     void ManageColorsForRadar()
