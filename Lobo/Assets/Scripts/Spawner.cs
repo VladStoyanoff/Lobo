@@ -28,15 +28,15 @@ public class Spawner : MonoBehaviour
     {
         var allNodes = mazeGenerator.GetMazeNodesList();
         var spawnPlayerHere = allNodes[Random.Range(0, allNodes.Count)];
+        allNodes.Remove(spawnPlayerHere);
         if (FindObjectOfType<PlayerController>() == null)
         {
-            Instantiate(playerPrefab, spawnPlayerHere.transform.position, Quaternion.identity);
+            playerPrefab = Instantiate(playerPrefab, spawnPlayerHere.transform.position, Quaternion.identity);
         }
         else
         {
             playerPrefab.transform.position = spawnPlayerHere.transform.position;
         }
-        allNodes.Remove(spawnPlayerHere);
     }
 
     void SpawnEnemyBases()

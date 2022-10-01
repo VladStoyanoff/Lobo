@@ -15,7 +15,6 @@ public class PlayerController : MonoBehaviour
 
     GameManager gameManager;
     Spawner spawner;
-    CameraManager cameraManager;
 
     [SerializeField] float moveSpeed;
     [SerializeField] GameObject bulletPrefab;
@@ -29,11 +28,15 @@ public class PlayerController : MonoBehaviour
 
         gameManager = FindObjectOfType<GameManager>();
         spawner = FindObjectOfType<Spawner>();
-        cameraManager = FindObjectOfType<CameraManager>();
     }
 
     void Update()
     {
+        if (gameManager.GetCollidedBool())
+        {
+            gameManager.SetCollidedBool();
+        }
+
         timeSinceLastShot += Time.deltaTime;
         UpdateMovement();
         TryRotateCannon();
@@ -42,6 +45,7 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
+        if (gameManager.GetCollidedBool()) return; 
         gameManager.ReduceLives();
         spawner.SpawnPlayer();
     }

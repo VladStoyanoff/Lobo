@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    bool collided;
     bool isGameActive;
     int playerLives = 4;
     [SerializeField] GameObject playerLivesIndicator;
@@ -15,13 +16,18 @@ public class GameManager : MonoBehaviour
 
     public void ReduceLives()
     {
+        collided = true;
         playerLives--;
-        var oneLife = playerLivesIndicator.transform.GetChild(playerLivesIndicator.transform.childCount - 1);
+        var oneLife = playerLivesIndicator.transform.GetChild(playerLives);
         oneLife.gameObject.SetActive(false);
+    }
 
-        if (playerLives != 0) return;
+    public void SetCollidedBool()
+    {
+        collided = false;
     }
 
     public bool GetIsGameActiveBool() => isGameActive;
     public int GetPlayerLives() => playerLives;
+    public bool GetCollidedBool() => collided;
 }
