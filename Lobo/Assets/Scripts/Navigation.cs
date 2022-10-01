@@ -57,17 +57,6 @@ public class Navigation : MonoBehaviour
         UpdateCannonDirectionRadar();
     }
 
-    //Debug.Log(vectorToEnemyBase);
-    //Debug.Log(distanceBetweenPlayerBase);
-    //Debug.Log(angle);
-
-    //Debug.Log(vectorToEnemyBase.x > 1f / 2f * radarRadius);
-    //Debug.Log(vectorToEnemyBase.x < Mathf.Sqrt(3f) / 2f * radarRadius);
-    //Debug.Log(vectorToEnemyBase.y > 1f / 2f * radarRadius);
-    //Debug.Log(vectorToEnemyBase.y < Mathf.Sqrt(3f) / 2f * radarRadius);
-    //Debug.Log(angle > pi / 6);
-    //Debug.Log(angle < pi / 3);
-
     void UpdateRadarForAllBases()
     {
         enemyBases = spawner.GetEnemyBases();

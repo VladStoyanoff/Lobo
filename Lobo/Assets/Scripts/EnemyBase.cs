@@ -17,11 +17,6 @@ public class EnemyBase : MonoBehaviour
 
     void Start()
     {
-        GameManager.OnGameStarted += GameManager_OnGameStarted;
-    }
-
-    void GameManager_OnGameStarted(object sender, EventArgs e)
-    {
         StartCoroutine(SpawnEnemies());
     }
 

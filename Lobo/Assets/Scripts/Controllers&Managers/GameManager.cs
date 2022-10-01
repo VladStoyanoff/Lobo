@@ -37,6 +37,29 @@ public class GameManager : MonoBehaviour
         if (playerLives == 0)
         {
             menuPanel.SetActive(true);
+
+            var patrolRoutes = GameObject.FindGameObjectsWithTag("PatrolRoute");
+            foreach(var patrolRoute in patrolRoutes)
+            {
+                Destroy(patrolRoute.gameObject);
+            }
+            var enemyBases = GameObject.FindGameObjectsWithTag("EnemyBase");
+            foreach (var enemyBase in enemyBases)
+            {
+                Destroy(enemyBase.gameObject);
+            }
+            Destroy(FindObjectOfType<PlayerController>().gameObject);
+            var mazeNodes = GameObject.FindGameObjectsWithTag("Maze Node");
+            foreach (var mazeNode in mazeNodes)
+            {
+                Destroy(mazeNode.gameObject);
+            }
+            isGameActive = false;
+            for (int i = 0; i < playerLivesIndicator.transform.childCount; i++)
+            {
+                playerLivesIndicator.transform.GetChild(i).gameObject.SetActive(true);
+                playerLives = 4;
+            }
         }
     }
 
@@ -49,7 +72,7 @@ public class GameManager : MonoBehaviour
     {
         if (inputActionsScript.Game.StartGame.IsPressed() == false) return;
         menuPanel.SetActive(false);
-        OnGameStarted?.Invoke(this, EventArgs.Empty);
+        if (isGameActive == false) OnGameStarted?.Invoke(this, EventArgs.Empty);
         isGameActive = true;
     }
 

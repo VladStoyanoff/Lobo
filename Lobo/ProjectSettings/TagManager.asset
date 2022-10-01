@@ -10,6 +10,9 @@ TagManager:
   - Player Bullet
   - UI
   - Enemy
+  - PatrolRoute
+  - EnemyBase
+  - Maze Node
   layers:
   - Default
   - TransparentFX

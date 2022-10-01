@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using System;
 
 public class CameraManager : MonoBehaviour
 {
@@ -9,6 +10,11 @@ public class CameraManager : MonoBehaviour
     PlayerController playerController;
 
     void Start()
+    {
+        GameManager.OnGameStarted += GameManager_OnGameStarted;
+    }
+
+    void GameManager_OnGameStarted(object sender, EventArgs e)
     {
         playerController = FindObjectOfType<PlayerController>();
         if (playerController == null) return;

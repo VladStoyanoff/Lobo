@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,13 @@ public class MazeGenerator : MonoBehaviour
 
     void Start()
     {
+        GameManager.OnGameStarted += GameManager_OnGameStarted;
+    }
+
+    void GameManager_OnGameStarted(object sender, EventArgs e)
+    {
+        nodes.Clear();
+
         // Create Nodes
         for (int x = 0; x < mazeSize.x; x++)
         {
@@ -26,7 +34,7 @@ public class MazeGenerator : MonoBehaviour
         var completedNodes = new List<MazeNode>();
 
         // Choose Starting Node
-        currentPath.Add(nodes[Random.Range(0, nodes.Count)]);
+        currentPath.Add(nodes[UnityEngine.Random.Range(0, nodes.Count)]);
 
         while (completedNodes.Count < nodes.Count)
         {
@@ -70,13 +78,13 @@ public class MazeGenerator : MonoBehaviour
             // Remove a random wall if the node is not on the outmost of the maze (this is not part of the algorithm, but ensures certain Bolo maze patterns are met)
             if (currentNodeX < mazeSize.x - 1 && currentNodeX > 1 && currentNodeY < mazeSize.y - 1 && currentNodeY > 1)
             {
-                nodes[currentNodeIndex].RemoveWall(Random.Range(0, 4));
+                nodes[currentNodeIndex].RemoveWall(UnityEngine.Random.Range(0, 4));
             }
 
             // Choose next node
             if (possibleDirections.Count > 0)
             {
-                var chosenDirection = Random.Range(0, possibleDirections.Count);
+                var chosenDirection = UnityEngine.Random.Range(0, possibleDirections.Count);
                 var chosenNode = nodes[possibleNextNodes[chosenDirection]];
 
                 // Remove walls between nodes that are connected in a path
@@ -111,6 +119,5 @@ public class MazeGenerator : MonoBehaviour
             }
         }
     }
-
     public List<MazeNode> GetMazeNodesList() => nodes;
 }
