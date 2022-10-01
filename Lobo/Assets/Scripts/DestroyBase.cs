@@ -6,10 +6,12 @@ public class DestroyBase : MonoBehaviour
 {
     [SerializeField] GameObject enemyBase;
     Spawner spawner;
+    FuelTank fuelTank;
 
     void Awake()
     {
         spawner = FindObjectOfType<Spawner>();
+        fuelTank = FindObjectOfType<FuelTank>();
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -18,8 +20,7 @@ public class DestroyBase : MonoBehaviour
         {
             Destroy(enemyBase);
             spawner.GetEnemyBases().Remove(enemyBase);
+            fuelTank.RefillTank();
         }
     }
-
-
 }

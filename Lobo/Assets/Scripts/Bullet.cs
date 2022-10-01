@@ -16,11 +16,23 @@ public class Bullet : MonoBehaviour
                 Destroy(collision.gameObject);
             }
 
+            else if (collision.CompareTag("Enemy"))
+            {
+                Destroy(collision.gameObject);
+            }
+
             Destroy(gameObject);
         }
-        else
+        else if (gameObject.CompareTag("Enemy Bullet"))
         {
-            Destroy(gameObject);
+            if (collision.CompareTag("Player"))
+            {
+                Destroy(collision.gameObject);
+            }
+            else if (collision.gameObject.CompareTag("Enemy") == false)
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }
