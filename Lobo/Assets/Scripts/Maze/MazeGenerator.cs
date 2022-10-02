@@ -16,6 +16,11 @@ public class MazeGenerator : MonoBehaviour
 
     void GameManager_OnGameStarted(object sender, EventArgs e)
     {
+        GenerateMaze();
+    }
+
+    void GenerateMaze()
+    {
         nodes.Clear();
 
         // Create Nodes
@@ -75,13 +80,22 @@ public class MazeGenerator : MonoBehaviour
             // Check node below the current node
             CheckNeighbourNode(currentNodeY, 1, false, -1, 1, 4);
 
-            // Remove a random wall if the node is not on the outmost of the maze (this is not part of the algorithm, but ensures certain Bolo maze patterns are met)
-            if (currentNodeX < mazeSize.x - 1 && currentNodeX > 1 && currentNodeY < mazeSize.y - 1 && currentNodeY > 1)
+            // Manage density settings
+            var chanceToRemoveWall = 100 / FindObjectOfType<UILevelManager>().GetDensitySetting();
+            if (UnityEngine.Random.Range(0, 100) <= chanceToRemoveWall)
             {
                 nodes[currentNodeIndex].RemoveWall(UnityEngine.Random.Range(0, 4));
-                nodes[currentNodeIndex].RemoveWall(UnityEngine.Random.Range(0, 4));
-                nodes[currentNodeIndex].RemoveWall(UnityEngine.Random.Range(0, 4));
             }
+
+            // Ensure the outmost walls stay active
+            if (currentNodeX == mazeSize.x - 1)
+                nodes[currentNodeIndex].transform.GetChild(1).gameObject.SetActive(true);
+            if (currentNodeX == 0)
+                nodes[currentNodeIndex].transform.GetChild(2).gameObject.SetActive(true);
+            if (currentNodeY == mazeSize.y - 1)
+                nodes[currentNodeIndex].transform.GetChild(3).gameObject.SetActive(true);
+            if (currentNodeY == 0)
+                nodes[currentNodeIndex].transform.GetChild(4).gameObject.SetActive(true);
 
             // Choose next node
             if (possibleDirections.Count > 0)
@@ -121,5 +135,6 @@ public class MazeGenerator : MonoBehaviour
             }
         }
     }
+
     public List<MazeNode> GetMazeNodesList() => nodes;
 }
