@@ -13,6 +13,7 @@ TagManager:
   - PatrolRoute
   - EnemyBase
   - Maze Node
+  - Wall
   layers:
   - Default
   - TransparentFX

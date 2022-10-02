@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class AIController : MonoBehaviour
+public class AIControllerBasicUnit : MonoBehaviour
 {
     PatrolRouteGenerator patrolRouteGenerator;
     PlayerController player;
     NavMeshAgent navMeshAgent;
 
     [SerializeField] GameObject bulletPrefab;
+    [SerializeField] Transform bulletSpawnPoint;
 
     int waypointIndex = 0;
     float timeSinceLastShot = Mathf.Infinity;
@@ -66,11 +67,10 @@ public class AIController : MonoBehaviour
         if (isNotInRangeOfPlayer) return;
 
         // Chase and shoot
-        navMeshAgent.destination = player.transform.position;
         if (timeSinceLastShot < FIRE_RATE) return;
-        var bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+        var bullet = Instantiate(bulletPrefab, transform.position, Quaternion.Euler(bulletSpawnPoint.transform.localEulerAngles));
         bullet.tag = "Enemy Bullet";
-        bullet.GetComponent<Rigidbody2D>().velocity = (player.transform.position - transform.position).normalized * BULLET_SPEED;
+        bullet.GetComponent<Rigidbody2D>().velocity = bulletSpawnPoint.up * BULLET_SPEED;
         timeSinceLastShot = 0;
 
         // REFACTOR ^^ You can probably figure out a way to turn this into a general method and pass it to each controller
