@@ -79,6 +79,8 @@ public class MazeGenerator : MonoBehaviour
             if (currentNodeX < mazeSize.x - 1 && currentNodeX > 1 && currentNodeY < mazeSize.y - 1 && currentNodeY > 1)
             {
                 nodes[currentNodeIndex].RemoveWall(UnityEngine.Random.Range(0, 4));
+                nodes[currentNodeIndex].RemoveWall(UnityEngine.Random.Range(0, 4));
+                nodes[currentNodeIndex].RemoveWall(UnityEngine.Random.Range(0, 4));
             }
 
             // Choose next node

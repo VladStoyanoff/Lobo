@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,6 +15,12 @@ public class FuelTank : MonoBehaviour
     {
         playerController = GetComponent<PlayerController>();
         fuelTank = GameObject.FindGameObjectWithTag("UI").transform.GetChild(1).GetChild(4).GetChild(0).GetChild(0).GetComponent<Image>();
+        GameManager.OnGameStarted += GameManager_OnGameStarted;
+    }
+
+    void GameManager_OnGameStarted(object sender, EventArgs e)
+    {
+        RefillTank();
     }
 
     void Update()
