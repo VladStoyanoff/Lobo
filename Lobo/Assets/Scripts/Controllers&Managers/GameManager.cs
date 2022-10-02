@@ -18,14 +18,14 @@ public class GameManager : MonoBehaviour
     public static event EventHandler OnGameStarted;
 
     InputActions inputActionsScript;
-    UILevelManager uiLevelManager;
+    UIManager uiManager;
 
     void Awake()
     {
         inputActionsScript = new InputActions();
         inputActionsScript.Game.Enable();
 
-        uiLevelManager = FindObjectOfType<UILevelManager>();
+        uiManager = FindObjectOfType<UIManager>();
     }
 
     void Update()
@@ -66,6 +66,8 @@ public class GameManager : MonoBehaviour
                 playerLives = 4;
             }
             coverImage.gameObject.SetActive(true);
+            FindObjectOfType<ScoreManager>().TrySaveBestScore();
+            FindObjectOfType<ScoreManager>().LoadBestScore();
         }
     }
 
@@ -77,13 +79,11 @@ public class GameManager : MonoBehaviour
     void StartGame()
     {
         if (inputActionsScript.Game.StartGame.IsPressed() == false) return;
-        if (uiLevelManager.GetLevelSettingBool() == false ||
-            uiLevelManager.GetDensitySettingBool() == false)
+        if (uiManager.GetLevelSettingBool() == false ||
+            uiManager.GetDensitySettingBool() == false)
         {
             Debug.LogError("In order to start the game, the level and density settings must be set");
         }
-
-        // difficulty
 
         menuPanel.SetActive(false);
         if (isGameActive == false) OnGameStarted?.Invoke(this, EventArgs.Empty);

@@ -1,17 +1,41 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class UILevelManager : MonoBehaviour
+public class UIManager : MonoBehaviour
 {
     [SerializeField] TMP_InputField levelIF;
     int levelSetting;
     [SerializeField] TMP_InputField densityIF;
     int densitySetting;
 
+    [SerializeField] TMP_Text scoreText;
+    [SerializeField] TMP_Text highScoreText;
+
+    ScoreManager scoreManager;
+
     bool hasParsedLevelSetting;
     bool hasParsedDensitySetting;
+
+    void Awake()
+    {
+        scoreManager = FindObjectOfType<ScoreManager>();
+    }
+
+    void Start()
+    {
+        scoreManager.LoadBestScore();
+    }
+
+    void Update()
+    {
+        UpdateScore();
+    }
+
+    void UpdateScore()
+    {
+        scoreText.text = "Score: " + scoreManager.GetScore().ToString();
+        highScoreText.text = "High Score: " + scoreManager.GetBestScore().ToString();
+    }
 
     public void ReadLevelIF()
     {

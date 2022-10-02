@@ -5,12 +5,21 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     [SerializeField] float explosionRadius = .05f;
+
+    ScoreManager scoreManager;
+
     // Refactor: Turn into a switch statement
+
+    void Start()
+    {
+        scoreManager = FindObjectOfType<ScoreManager>();
+    }
+
     void OnTriggerEnter2D(Collider2D collision)
     {
+        var colliders = Physics2D.OverlapCircleAll(transform.position, explosionRadius);
         if (gameObject.CompareTag("Player Bullet"))
         {
-            var colliders = Physics2D.OverlapCircleAll(transform.position, explosionRadius);
             if (collision.CompareTag("Building Block"))
             {
                 foreach(var col in colliders)
@@ -24,11 +33,13 @@ public class Bullet : MonoBehaviour
             {
                 foreach (var col in colliders)
                 {
+                    scoreManager.ModifyScore(2);
                     Destroy(col.gameObject);
                 }
             }
             foreach (var col in colliders)
             {
+                scoreManager.ModifyScore(2);
                 Destroy(col.gameObject);
             }
             Destroy(gameObject);

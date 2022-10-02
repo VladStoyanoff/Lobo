@@ -6,7 +6,7 @@ using UnityEngine;
 public class EnemyBase : MonoBehaviour
 {
     GameManager gameManager;
-    UILevelManager uiLevelManager;
+    UIManager uiManager;
 
     [SerializeField] float spawnRate = 10;
     [SerializeField] GameObject[] enemyUnitPrefabs;
@@ -15,7 +15,7 @@ public class EnemyBase : MonoBehaviour
     void Awake()
     {
         gameManager = FindObjectOfType<GameManager>();
-        uiLevelManager = FindObjectOfType<UILevelManager>();
+        uiManager = FindObjectOfType<UIManager>();
     }
 
     void Start()
@@ -26,11 +26,11 @@ public class EnemyBase : MonoBehaviour
 
     IEnumerator SpawnEnemies()
     {
-        if (uiLevelManager.GetLevelSetting() == 1)
+        if (uiManager.GetLevelSetting() == 1)
         {
             index = 0;
         }
-        else if (uiLevelManager.GetLevelSetting() == 2)
+        else if (uiManager.GetLevelSetting() == 2)
         {
             var randomModifier = UnityEngine.Random.Range(0, 100);
             if (randomModifier < 80)
@@ -39,7 +39,7 @@ public class EnemyBase : MonoBehaviour
             }
             else index = 1;
         }
-        else if (uiLevelManager.GetLevelSetting() == 3)
+        else if (uiManager.GetLevelSetting() == 3)
         {
             var randomModifier = UnityEngine.Random.Range(0, 100);
             if (randomModifier < 70)
@@ -53,7 +53,7 @@ public class EnemyBase : MonoBehaviour
             else index = 2;
         }
 
-        else if (uiLevelManager.GetLevelSetting() == 4)
+        else if (uiManager.GetLevelSetting() == 4)
         {
             var randomModifier = UnityEngine.Random.Range(0, 100);
             if (randomModifier < 50)
@@ -66,7 +66,7 @@ public class EnemyBase : MonoBehaviour
             }
             else index = 2;
         }
-        else if (uiLevelManager.GetLevelSetting() == 5)
+        else if (uiManager.GetLevelSetting() == 5)
         {
             var randomModifier = UnityEngine.Random.Range(0, 100);
             if (randomModifier < 40)
@@ -79,7 +79,7 @@ public class EnemyBase : MonoBehaviour
             }
             else index = 2;
         }
-        else if (uiLevelManager.GetLevelSetting() == 6)
+        else if (uiManager.GetLevelSetting() == 6)
         {
             var randomModifier = UnityEngine.Random.Range(0, 100);
             if (randomModifier < 33)
@@ -92,7 +92,7 @@ public class EnemyBase : MonoBehaviour
             }
             else index = 2;
         }
-        else if (uiLevelManager.GetLevelSetting() == 7)
+        else if (uiManager.GetLevelSetting() == 7)
         {
             var randomModifier = UnityEngine.Random.Range(0, 100);
             if (randomModifier < 25)
@@ -105,7 +105,7 @@ public class EnemyBase : MonoBehaviour
             }
             else index = 2;
         }
-        else if (uiLevelManager.GetLevelSetting() == 8)
+        else if (uiManager.GetLevelSetting() == 8)
         {
             var randomModifier = UnityEngine.Random.Range(0, 100);
             if (randomModifier < 10)
@@ -118,7 +118,7 @@ public class EnemyBase : MonoBehaviour
             }
             else index = 2;
         }
-        else if (uiLevelManager.GetLevelSetting() == 9)
+        else if (uiManager.GetLevelSetting() == 9)
         {
             var randomModifier = UnityEngine.Random.Range(0, 100);
             if (randomModifier < 50)

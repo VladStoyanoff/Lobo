@@ -21,6 +21,7 @@ public class DestroyBase : MonoBehaviour
             Destroy(enemyBase);
             spawner.GetEnemyBases().Remove(enemyBase);
             fuelTank.RefillTank();
+            FindObjectOfType<ScoreManager>().ModifyScore(100);
         }
     }
 }

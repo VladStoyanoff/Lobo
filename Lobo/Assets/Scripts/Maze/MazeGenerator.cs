@@ -81,7 +81,7 @@ public class MazeGenerator : MonoBehaviour
             CheckNeighbourNode(currentNodeY, 1, false, -1, 1, 4);
 
             // Manage density settings
-            var chanceToRemoveWall = 100 / FindObjectOfType<UILevelManager>().GetDensitySetting();
+            var chanceToRemoveWall = 100 / FindObjectOfType<UIManager>().GetDensitySetting();
             if (UnityEngine.Random.Range(0, 100) <= chanceToRemoveWall)
             {
                 nodes[currentNodeIndex].RemoveWall(UnityEngine.Random.Range(0, 4));
