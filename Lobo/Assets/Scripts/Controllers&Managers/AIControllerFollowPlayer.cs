@@ -17,7 +17,7 @@ public class AIControllerFollowPlayer : MonoBehaviour
 
     const int FIRE_RATE = 2;
     const float WAYPOINT_WIDTH = .3f;
-    const float BULLET_SPEED = .5f;
+    const float BULLET_SPEED = 2f;
     const int CHASE_RADIUS = 1;
 
     void Awake()

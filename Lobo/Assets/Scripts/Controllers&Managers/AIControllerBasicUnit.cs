@@ -18,7 +18,7 @@ public class AIControllerBasicUnit : MonoBehaviour
 
     const int FIRE_RATE = 2;
     const float WAYPOINT_WIDTH = .3f;
-    const float BULLET_SPEED = .5f;
+    const float BULLET_SPEED = 2f;
     const int CHASE_RADIUS = 1;
 
     void Awake()
@@ -46,6 +46,11 @@ public class AIControllerBasicUnit : MonoBehaviour
         // Travel to current waypoint
         var waypointList = patrolRouteGenerator.GetWaypointsList();
         var waypointPosition = waypointList[waypointIndex].position;
+
+        var angle = Mathf.Atan2(waypointPosition.y - transform.position.y, waypointPosition.x - transform.position.x) * Mathf.Rad2Deg;
+        var targetRotation = Quaternion.Euler(new Vector3(0, 0, angle));
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, 100 * Time.deltaTime);
+
         navMeshAgent.destination = waypointPosition;
 
         // Logic that decides when the waypoint should be incremented
@@ -70,7 +75,7 @@ public class AIControllerBasicUnit : MonoBehaviour
         if (timeSinceLastShot < FIRE_RATE) return;
         var bullet = Instantiate(bulletPrefab, transform.position, Quaternion.Euler(bulletSpawnPoint.transform.localEulerAngles));
         bullet.tag = "Enemy Bullet";
-        bullet.GetComponent<Rigidbody2D>().velocity = bulletSpawnPoint.up * BULLET_SPEED;
+        bullet.GetComponent<Rigidbody2D>().velocity = transform.right * BULLET_SPEED;
         timeSinceLastShot = 0;
 
         // REFACTOR ^^ You can probably figure out a way to turn this into a general method and pass it to each controller

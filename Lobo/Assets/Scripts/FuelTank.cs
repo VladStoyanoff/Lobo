@@ -15,12 +15,6 @@ public class FuelTank : MonoBehaviour
     {
         playerController = GetComponent<PlayerController>();
         fuelTank = GameObject.FindGameObjectWithTag("UI").transform.GetChild(1).GetChild(4).GetChild(0).GetChild(0).GetComponent<Image>();
-        GameManager.OnGameStarted += GameManager_OnGameStarted;
-    }
-
-    void GameManager_OnGameStarted(object sender, EventArgs e)
-    {
-        RefillTankSlow();
     }
 
     void Update()
@@ -47,8 +41,8 @@ public class FuelTank : MonoBehaviour
     {
         while(GameObject.FindGameObjectWithTag("UI").transform.GetChild(1).GetChild(4).GetChild(0).GetChild(0).GetComponent<Image>().fillAmount < 1)
         {
-            GameObject.FindGameObjectWithTag("UI").transform.GetChild(1).GetChild(4).GetChild(0).GetChild(0).GetComponent<Image>().fillAmount += .0001f;
-            yield return new WaitForSeconds(.1f);
+            GameObject.FindGameObjectWithTag("UI").transform.GetChild(1).GetChild(4).GetChild(0).GetChild(0).GetComponent<Image>().fillAmount += .01f;
+            yield return new WaitForSeconds(.01f);
         }
     }
 }

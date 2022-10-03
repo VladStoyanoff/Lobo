@@ -60,6 +60,7 @@ public class Navigation : MonoBehaviour
 
     void Update()
     {
+        if (spawner.GetEnemyBases().Count == 0) return;
         UpdateRadarForAllBases();
         UpdateCannonDirectionRadar();
     }

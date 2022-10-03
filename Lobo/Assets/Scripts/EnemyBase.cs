@@ -129,7 +129,7 @@ public class EnemyBase : MonoBehaviour
         }
         while (gameManager.GetIsGameActiveBool())
         {
-            Instantiate(enemyUnitPrefabs[index], transform.position, Quaternion.identity, transform);
+            Instantiate(enemyUnitPrefabs[index], transform.position, Quaternion.identity);
             yield return new WaitForSeconds(spawnRate);
         }
     }

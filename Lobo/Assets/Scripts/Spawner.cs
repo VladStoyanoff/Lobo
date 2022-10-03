@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Spawner : MonoBehaviour
 {
@@ -34,11 +35,11 @@ public class Spawner : MonoBehaviour
         if (FindObjectOfType<PlayerController>() == null)
         {
             player = Instantiate(playerPrefab, spawnPlayerHere.transform.position, Quaternion.identity);
+            player.GetComponent<FuelTank>().RefillTankSlow();
         }
         else
         {
             player.transform.position = spawnPlayerHere.transform.position;
-            player.GetComponent<FuelTank>().RefillTank();
         }
     }
 

@@ -62,7 +62,6 @@ public class GameManager : MonoBehaviour
         {
             Destroy(enemyBase.gameObject);
         }
-        Destroy(FindObjectOfType<PlayerController>().gameObject);
         var mazeNodes = GameObject.FindGameObjectsWithTag("Maze Node");
         foreach (var mazeNode in mazeNodes)
         {
@@ -73,6 +72,25 @@ public class GameManager : MonoBehaviour
             playerLivesIndicator.transform.GetChild(i).gameObject.SetActive(true);
             playerLives = 4;
         }
+
+        var enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        for (int i = 0; i < enemies.Length; i++)
+        {
+            Destroy(enemies[i]);
+        }
+
+        for (int i = 0; i < 7; i++)
+        {
+            GameObject.FindGameObjectWithTag("UI").transform.GetChild(1).GetChild(6).GetChild(0).GetChild(0).GetChild(i + 1).GetComponent<RawImage>().gameObject.SetActive(false);
+        }
+        GameObject.FindGameObjectWithTag("UI").transform.GetChild(1).GetChild(6).GetChild(0).GetChild(0).GetChild(0).GetComponent<RawImage>().gameObject.SetActive(true);
+
+        for (int i = 0; i < 4; i++)
+        {
+            GameObject.FindGameObjectWithTag("UI").transform.GetChild(1).GetChild(5).GetChild(i).GetComponent<RawImage>().color = Color.black;
+        }
+
+        Destroy(FindObjectOfType<PlayerController>().gameObject);
         GameObject.FindGameObjectWithTag("UI").transform.GetChild(1).GetChild(4).GetChild(0).GetChild(0).GetComponent<Image>().fillAmount = 0;
         coverImage.gameObject.SetActive(true);
         FindObjectOfType<ScoreManager>().TrySaveBestScore();
@@ -90,6 +108,7 @@ public class GameManager : MonoBehaviour
     IEnumerator EndGameScreen()
     {
         endGamePanel.SetActive(true);
+        isGameActive = false;
         yield return new WaitForSeconds(3);
         endGamePanel.SetActive(false);
         EndBehaviour();
@@ -109,6 +128,7 @@ public class GameManager : MonoBehaviour
             Debug.LogError("In order to start the game, the level and density settings must be set");
             return;
         }
+        FindObjectOfType<ScoreManager>().ClearScore();
         FindObjectOfType<UIManager>().SetLastLevelSettings();
         menuPanel.SetActive(false);
         if (isGameActive == false) OnGameStarted?.Invoke(this, EventArgs.Empty);
