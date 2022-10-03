@@ -5,10 +5,10 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     InputActions inputActionsScript;
+    [SerializeField] float bulletSpeed = 2f;
+    [SerializeField] float cannonRotationSpeed = 100;
 
     float timeSinceLastShot = Mathf.Infinity;
-    const int CANNON_ROTATE_SPEED = 50;
-    const float BULLET_SPEED = .5f;
     const int FIRE_RATE = 2;
 
     Vector2 movementInput;
@@ -65,7 +65,7 @@ public class PlayerController : MonoBehaviour
     {
         var rotationVector = Vector3.zero;
         rotationVector.z = inputActionsScript.Player.CannonRotation.ReadValue<float>();
-        cannon.transform.localEulerAngles += rotationVector * CANNON_ROTATE_SPEED * Time.deltaTime;
+        cannon.transform.localEulerAngles += rotationVector * cannonRotationSpeed * Time.deltaTime;
     }
 
     void TryShootProjectile()
@@ -74,7 +74,7 @@ public class PlayerController : MonoBehaviour
         if (inputActionsScript.Player.Shoot.IsPressed() == false) return;
         var bullet = Instantiate(bulletPrefab, bulletSpawnPoint.transform.position, Quaternion.Euler(cannon.transform.localEulerAngles));
         bullet.tag = "Player Bullet";
-        bullet.GetComponent<Rigidbody2D>().velocity = bulletSpawnPoint.up * BULLET_SPEED;
+        bullet.GetComponent<Rigidbody2D>().velocity = bulletSpawnPoint.up * bulletSpeed;
         timeSinceLastShot = 0;
     }
 

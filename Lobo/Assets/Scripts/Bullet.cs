@@ -37,11 +37,7 @@ public class Bullet : MonoBehaviour
                     Destroy(col.gameObject);
                 }
             }
-            foreach (var col in colliders)
-            {
-                scoreManager.ModifyScore(2);
-                Destroy(col.gameObject);
-            }
+
             Destroy(gameObject);
         }
         else if (gameObject.CompareTag("Enemy Bullet"))

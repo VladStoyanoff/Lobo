@@ -20,7 +20,7 @@ public class FuelTank : MonoBehaviour
 
     void GameManager_OnGameStarted(object sender, EventArgs e)
     {
-        RefillTank();
+        RefillTankSlow();
     }
 
     void Update()
@@ -36,5 +36,19 @@ public class FuelTank : MonoBehaviour
     public void RefillTank()
     {
         fuelTank.fillAmount = 1;
+    }
+
+    public void RefillTankSlow()
+    {
+        StartCoroutine(RefillTankSlowCoroutine());
+    }
+
+    IEnumerator RefillTankSlowCoroutine()
+    {
+        while(GameObject.FindGameObjectWithTag("UI").transform.GetChild(1).GetChild(4).GetChild(0).GetChild(0).GetComponent<Image>().fillAmount < 1)
+        {
+            GameObject.FindGameObjectWithTag("UI").transform.GetChild(1).GetChild(4).GetChild(0).GetChild(0).GetComponent<Image>().fillAmount += .0001f;
+            yield return new WaitForSeconds(.1f);
+        }
     }
 }

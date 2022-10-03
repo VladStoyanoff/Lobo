@@ -10,6 +10,11 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] TMP_Text scoreText;
     [SerializeField] TMP_Text highScoreText;
+    [SerializeField] TMP_Text bestDensityText;
+    [SerializeField] TMP_Text bestLevelText;
+    [SerializeField] TMP_Text lastDensityText;
+    [SerializeField] TMP_Text lastLevelText;
+
 
     ScoreManager scoreManager;
 
@@ -35,6 +40,8 @@ public class UIManager : MonoBehaviour
     {
         scoreText.text = "Score: " + scoreManager.GetScore().ToString();
         highScoreText.text = "High Score: " + scoreManager.GetBestScore().ToString();
+        bestLevelText.text = scoreManager.GetBestLevel().ToString();
+        bestDensityText.text = scoreManager.GetBestDensity().ToString();
     }
 
     public void ReadLevelIF()
@@ -61,6 +68,12 @@ public class UIManager : MonoBehaviour
         {
             Debug.LogError("The density setting will only accept integers from 1-5 as input");
         }
+    }
+
+    public void SetLastLevelSettings()
+    {
+        lastDensityText.text = densitySetting.ToString();
+        lastLevelText.text = levelSetting.ToString();
     }
 
     public int GetLevelSetting() => levelSetting;

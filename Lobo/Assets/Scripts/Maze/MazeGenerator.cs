@@ -85,6 +85,7 @@ public class MazeGenerator : MonoBehaviour
             if (UnityEngine.Random.Range(0, 100) <= chanceToRemoveWall)
             {
                 nodes[currentNodeIndex].RemoveWall(UnityEngine.Random.Range(0, 4));
+                nodes[currentNodeIndex].RemoveWall(UnityEngine.Random.Range(0, 4));
             }
 
             // Ensure the outmost walls stay active

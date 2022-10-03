@@ -379,7 +379,7 @@ Transform:
   m_GameObject: {fileID: 8224211522279866959}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -5, y: -1, z: 0}
-  m_LocalScale: {x: 0.05, y: 0.05, z: 0.05}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 526297591896998755}
@@ -446,6 +446,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 737d2bc3ccb0d5f489dac5a5e8bb5b54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bulletSpeed: 2
+  cannonRotationSpeed: 100
   moveSpeed: 1
   bulletPrefab: {fileID: 1609567541951510432, guid: 2012ca496abf2c744a9f43e783565b23, type: 3}
   cannon: {fileID: 4019904537769520481}

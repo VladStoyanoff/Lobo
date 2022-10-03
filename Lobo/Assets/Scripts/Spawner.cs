@@ -38,6 +38,7 @@ public class Spawner : MonoBehaviour
         else
         {
             player.transform.position = spawnPlayerHere.transform.position;
+            player.GetComponent<FuelTank>().RefillTank();
         }
     }
 
