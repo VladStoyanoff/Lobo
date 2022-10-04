@@ -18,6 +18,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] TMP_Text lastLevelText;
 
     [SerializeField] Image coverImage;
+    [SerializeField] GameObject menuPanel;
 
     ScoreManager scoreManager;
 
@@ -32,22 +33,34 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         GameManager.OnGameStarted += GameManager_OnGameStarted;
-        GameManager.OnGameStarted += GameManager_OnGameEnded;
-        scoreManager.LoadBestScore();
+        GameManager.OnGameEnded += GameManager_OnGameEnded;
+        UpdateHighScore();
     }
 
     void GameManager_OnGameStarted(object sender, EventArgs e)
     {
+        if (hasParsedLevelSetting == false || hasParsedDensitySetting == false)
+        {
+            Debug.LogError("In order to start the game, the level and density settings must be set");
+            return;
+        }
+        menuPanel.SetActive(false);
         coverImage.gameObject.GetComponent<Image>().enabled = false;
+        scoreManager.ClearScore();
     }
 
     void GameManager_OnGameEnded(object sender, EventArgs e)
     {
         coverImage.gameObject.GetComponent<Image>().enabled = true;
+        menuPanel.SetActive(true);
+        FindObjectOfType<GameManager>().SetIsGameActiveBool(false);
 
-        highScoreText.text = "High Score: " + scoreManager.GetBestScore().ToString();
-        bestLevelText.text = scoreManager.GetBestLevel().ToString();
-        bestDensityText.text = scoreManager.GetBestDensity().ToString();
+        lastDensityText.text = densitySetting.ToString();
+        lastLevelText.text = levelSetting.ToString();
+
+        if (scoreManager.GetNewHighScoreSetBool() == false) return;
+        UpdateHighScore();
+        scoreManager.SetHighScoreBool(false); 
     }
 
     void Update()
@@ -55,10 +68,17 @@ public class UIManager : MonoBehaviour
         scoreText.text = "Score: " + scoreManager.GetScore().ToString();
     }
 
+    void UpdateHighScore()
+    {
+        highScoreText.text = "High Score: " + scoreManager.GetBestScore().ToString();
+        bestLevelText.text = scoreManager.GetBestLevel().ToString();
+        bestDensityText.text = scoreManager.GetBestDensity().ToString();
+    }
+
     public void ReadLevelIF()
     {
         hasParsedLevelSetting = int.TryParse(levelIF.GetComponent<TMP_InputField>().text, out var result);
-        if (hasParsedLevelSetting)
+        if (hasParsedLevelSetting && result > 0 && result < 10)
         {
             levelSetting = result;
         }
@@ -81,14 +101,6 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void SetLastLevelSettings()
-    {
-        lastDensityText.text = densitySetting.ToString();
-        lastLevelText.text = levelSetting.ToString();
-    }
-
     public int GetLevelSetting() => levelSetting;
     public int GetDensitySetting() => densitySetting;
-    public bool GetLevelSettingBool() => hasParsedLevelSetting;
-    public bool GetDensitySettingBool() => hasParsedDensitySetting;
 }

@@ -14,7 +14,6 @@ public class GameManager : MonoBehaviour
     int playerLives = 4;
 
     [SerializeField] GameObject playerLivesIndicator;
-    [SerializeField] GameObject menuPanel;
     [SerializeField] GameObject endGamePanel;
 
     public static event EventHandler OnGameStarted;
@@ -50,9 +49,6 @@ public class GameManager : MonoBehaviour
 
     void EndBehaviour()
     {
-        menuPanel.SetActive(true);
-        isGameActive = false;
-
         var patrolRoutes = GameObject.FindGameObjectsWithTag("PatrolRoute");
         foreach (var patrolRoute in patrolRoutes)
         {
@@ -91,10 +87,7 @@ public class GameManager : MonoBehaviour
             GameObject.FindGameObjectWithTag("UI").transform.GetChild(1).GetChild(5).GetChild(i).GetComponent<RawImage>().color = Color.black;
         }
 
-        Destroy(FindObjectOfType<PlayerController>().gameObject);
         GameObject.FindGameObjectWithTag("UI").transform.GetChild(1).GetChild(4).GetChild(0).GetChild(0).GetComponent<Image>().fillAmount = 0;
-        FindObjectOfType<ScoreManager>().TrySaveBestScore();
-        FindObjectOfType<ScoreManager>().LoadBestScore();
     }
 
     void EndGame()
@@ -114,23 +107,19 @@ public class GameManager : MonoBehaviour
         EndBehaviour();
     }
 
-    public void SetCollidedBool()
+    public void SetCollidedBool(bool boolean)
     {
-        collided = false;
+        collided = boolean;
+    }
+
+    public void SetIsGameActiveBool(bool boolean)
+    {
+        isGameActive = boolean;
     }
 
     void StartGame()
     {
         if (inputActionsScript.Game.StartGame.IsPressed() == false) return;
-        if (uiManager.GetLevelSettingBool() == false ||
-            uiManager.GetDensitySettingBool() == false)
-        {
-            Debug.LogError("In order to start the game, the level and density settings must be set");
-            return;
-        }
-        FindObjectOfType<ScoreManager>().ClearScore();
-        FindObjectOfType<UIManager>().SetLastLevelSettings();
-        menuPanel.SetActive(false);
         if (isGameActive == false) OnGameStarted?.Invoke(this, EventArgs.Empty);
         isGameActive = true;
     }

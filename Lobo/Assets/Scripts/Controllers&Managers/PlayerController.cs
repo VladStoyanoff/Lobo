@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -29,6 +28,16 @@ public class PlayerController : MonoBehaviour
         spawner = FindObjectOfType<Spawner>();
     }
 
+    void Start()
+    {
+        GameManager.OnGameEnded += GameManager_OnGameEnded;
+    }
+
+    void GameManager_OnGameEnded(object sender, EventArgs e)
+    {
+        Destroy(gameObject);
+    }
+
     void Update()
     {
         timeSinceLastShot += Time.deltaTime;
@@ -38,7 +47,7 @@ public class PlayerController : MonoBehaviour
         TryShootProjectile();
 
         if (gameManager.GetCollidedBool() == false) return;
-        gameManager.SetCollidedBool();
+        gameManager.SetCollidedBool(false);
     }
 
     void OnTriggerEnter2D(Collider2D collision)

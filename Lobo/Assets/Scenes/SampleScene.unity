@@ -2079,6 +2079,7 @@ MonoBehaviour:
   lastDensityText: {fileID: 1385575228}
   lastLevelText: {fileID: 746484889}
   coverImage: {fileID: 2106192439}
+  menuPanel: {fileID: 653325860}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -5470,7 +5471,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerLivesIndicator: {fileID: 2033308804}
-  menuPanel: {fileID: 653325860}
   endGamePanel: {fileID: 322511612}
 --- !u!4 &1624873022
 Transform:

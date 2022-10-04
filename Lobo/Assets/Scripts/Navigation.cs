@@ -1,5 +1,3 @@
-using System.Collections;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -9,8 +7,10 @@ public class Navigation : MonoBehaviour
 {
 
     List<GameObject> enemyBases = new List<GameObject>();
+
     [SerializeField] RawImage[] radarRawImageArray;
     [SerializeField] RawImage[] cannonRotationRawImageArray;
+    bool[] worldCompassDirections = new bool[8];
 
     Spawner spawner;
 
@@ -19,18 +19,6 @@ public class Navigation : MonoBehaviour
     [SerializeField] GameObject cannon;
     [SerializeField] int radarRadius = 3;
 
-    Color black = Color.black;
-    Color green = Color.green;
-
-    bool baseToTheNorth;
-    bool baseToTheNorthwest;
-    bool baseToTheWest;
-    bool baseToTheSouthwest;
-    bool baseToTheSouth;
-    bool baseToTheSoutheast;
-    bool baseToTheEast;
-    bool baseToTheNortheast;
-
     void Awake()
     {
         spawner = FindObjectOfType<Spawner>();
@@ -38,24 +26,18 @@ public class Navigation : MonoBehaviour
 
     void Start()
     {
-        GameManager.OnGameStarted += GameManager_OnGameStarted;
         var navigationpanel = GameObject.FindGameObjectWithTag("UI").transform.GetChild(1);
 
         for (int i = 0; i < 4; i++)
         {
             radarRawImageArray[i] = navigationpanel.GetChild(5).GetChild(i).GetComponent<RawImage>();
-            radarRawImageArray[i].color = black;
+            radarRawImageArray[i].color = Color.black;
         }
 
-        for (int i=0; i < 7; i++)
+        for (int i = 0; i < 8; i++)
         {
-            cannonRotationRawImageArray[i] = navigationpanel.GetChild(6).GetChild(0).GetChild(0).GetChild(i + 1).GetComponent<RawImage>();
+            cannonRotationRawImageArray[i] = navigationpanel.GetChild(6).GetChild(0).GetChild(0).GetChild(i).GetComponent<RawImage>();
         }
-    }
-
-    void GameManager_OnGameStarted(object sender, EventArgs e)
-    {
-
     }
 
     void Update()
@@ -70,14 +52,11 @@ public class Navigation : MonoBehaviour
         enemyBases = spawner.GetEnemyBases();
         var vectorLengthList = new List<float>();
 
-        if (baseToTheNorth == true) baseToTheNorth = false;
-        if (baseToTheNorthwest == true) baseToTheNorthwest = false;
-        if (baseToTheWest == true) baseToTheWest = false;
-        if (baseToTheSouthwest == true) baseToTheSouthwest = false;
-        if (baseToTheSouth == true) baseToTheSouth = false;
-        if (baseToTheSoutheast == true) baseToTheSoutheast = false;
-        if (baseToTheEast == true) baseToTheEast = false;
-        if (baseToTheNortheast == true) baseToTheNortheast = false;
+        // Reset boolean compass indicators
+        for (int i = 0; i < worldCompassDirections.Length; i++)
+        {
+            if (worldCompassDirections[i] == true) worldCompassDirections[i] = false;
+        }
 
         // Find distances to all enemy bases and add them to a list. If the distance is beyond the radar's range dont try to locate the base
         for (int i = 0; i < enemyBases.Count; i++)
@@ -85,101 +64,47 @@ public class Navigation : MonoBehaviour
             var distanceBetweenPlayerBase = Vector2.Distance(gameObject.transform.position, enemyBases[i].transform.position);
             vectorLengthList.Add(distanceBetweenPlayerBase);
             if (distanceBetweenPlayerBase > radarRadius) continue;
-
             UpdateRadarForSingleBase(i, radarRadius);
         }
-
         ManageColorsForRadar();
 
         // If the radar hasnt located a single base, locate the closest one to the player.
-        if (baseToTheNorth == false && 
-            baseToTheNorthwest == false &&
-            baseToTheWest == false &&
-            baseToTheSouthwest == false &&
-            baseToTheSouth == false &&
-            baseToTheSoutheast  == false &&
-            baseToTheEast == false &&
-            baseToTheNortheast == false)
-        {
-            var closestenemybase = vectorLengthList.Min();
-            var index = vectorLengthList.IndexOf(closestenemybase);
-            UpdateRadarForSingleBase(index, Mathf.Infinity);
-            ManageColorsForRadar();
-        }
+        if (vectorLengthList.Min() <= radarRadius) return;
+        var closestenemybase = vectorLengthList.Min();
+        var index = vectorLengthList.IndexOf(closestenemybase);
+        UpdateRadarForSingleBase(index, Mathf.Infinity);
+        ManageColorsForRadar();
     }
 
     void ManageColorsForRadar()
     {
-        for (int i = 0; i < 4; i++)
+        foreach (var rawImage in radarRawImageArray)
         {
-            radarRawImageArray[i].color = black;
+            rawImage.color = Color.black;
         }
 
-        if (baseToTheNorth)
-        {
-            ActivateSprite(radarRawImageArray[0], radarRawImageArray[1]);
-        }
-
-        if (baseToTheEast)
-        {
-            ActivateSprite(radarRawImageArray[1], radarRawImageArray[3]);
-        }
-
-        if (baseToTheWest)
-        {
-            ActivateSprite(radarRawImageArray[0], radarRawImageArray[2]);
-        }
-
-        if (baseToTheSouth)
-        {
-            ActivateSprite(radarRawImageArray[2], radarRawImageArray[3]);
-        }
-
-        if (baseToTheNortheast)
-        {
-            ActivateSprite(radarRawImageArray[1], null);
-        }
-
-        if (baseToTheNorthwest)
-        {
-            ActivateSprite(radarRawImageArray[0], null);
-        }
-
-        if (baseToTheSoutheast)
-        {
-            ActivateSprite(radarRawImageArray[3], null);
-        }
-
-        if (baseToTheSouthwest)
-        {
-            ActivateSprite(radarRawImageArray[2], null);
-        }
+        TryActivateSprite(worldCompassDirections[0], radarRawImageArray[0], radarRawImageArray[1]);
+        TryActivateSprite(worldCompassDirections[1], radarRawImageArray[1], radarRawImageArray[3]);
+        TryActivateSprite(worldCompassDirections[2], radarRawImageArray[0], radarRawImageArray[2]);
+        TryActivateSprite(worldCompassDirections[3], radarRawImageArray[2], radarRawImageArray[3]);
+        TryActivateSprite(worldCompassDirections[4], radarRawImageArray[1], null);
+        TryActivateSprite(worldCompassDirections[5], radarRawImageArray[0], null);
+        TryActivateSprite(worldCompassDirections[6], radarRawImageArray[3], null);
+        TryActivateSprite(worldCompassDirections[7], radarRawImageArray[2], null);
     }
 
-    void ActivateSprite(RawImage imageOne, RawImage imageTwo)
+    void TryActivateSprite(bool boolean, RawImage imageOne, RawImage imageTwo)
     {
-        imageOne.color = green;
-        if (imageTwo != null)
-        {
-            imageTwo.color = green;
-        }
+        if (boolean == false) return;
+        imageOne.color = Color.green;
+        if (imageTwo == null) return;
+        imageTwo.color = Color.green;
     }
 
     void UpdateRadarForSingleBase(int index, float radarRadius)
     {
         var vectorToEnemyBase = enemyBases[index].transform.position - gameObject.transform.position;
         var angle = Vector2.Angle(vectorToEnemyBase.normalized, Vector2.right);
-
-        if (vectorToEnemyBase.x > 0 &&
-            vectorToEnemyBase.x < radarRadius &&
-            vectorToEnemyBase.y < 1f / 2f * radarRadius &&
-            vectorToEnemyBase.y > -1f / 2f * radarRadius &&
-            // the angle calculation ensures for both boundaries, because Vector3.Angle does not calculate angles between 180 and 360
-            angle < PI / 6)
-
-        {
-            baseToTheEast = true;
-        }
 
         if (vectorToEnemyBase.x < 1f / 2f * radarRadius &&
             vectorToEnemyBase.x > -1f / 2f * radarRadius &&
@@ -189,41 +114,18 @@ public class Navigation : MonoBehaviour
             angle < 2 * PI / 3f)
 
         {
-            baseToTheNorth = true;
+            worldCompassDirections[0] = true;
         }
 
         if (vectorToEnemyBase.x > 0 &&
-            vectorToEnemyBase.x < Mathf.Sqrt(3f) / 2f * radarRadius &&
-            vectorToEnemyBase.y < 0 &&
-            vectorToEnemyBase.y > -Mathf.Sqrt(3f) / 2f * radarRadius &&
-            angle > PI / 6 &&
-            angle < PI / 3)
+            vectorToEnemyBase.x < radarRadius &&
+            vectorToEnemyBase.y < 1f / 2f * radarRadius &&
+            vectorToEnemyBase.y > -1f / 2f * radarRadius &&
+            // the angle calculation ensures for both boundaries, because Vector3.Angle does not calculate angles between 180 and 360
+            angle < PI / 6)
 
         {
-            baseToTheSoutheast = true;
-        }
-
-        if (vectorToEnemyBase.x > 0 &&
-            vectorToEnemyBase.x < Mathf.Sqrt(3f) / 2f * radarRadius &&
-            vectorToEnemyBase.y > 0 &&
-            vectorToEnemyBase.y < Mathf.Sqrt(3f) / 2f * radarRadius &&
-            angle > PI / 6 &&
-            angle < PI / 3)
-
-        {
-            baseToTheNortheast = true;
-        }
-       
-
-        if (vectorToEnemyBase.x < 0 &&
-            vectorToEnemyBase.x > -Mathf.Sqrt(3f) / 2f * radarRadius &&
-            vectorToEnemyBase.y > 0 &&
-            vectorToEnemyBase.y < Mathf.Sqrt(3f) / 2f * radarRadius &&
-            angle > 2 * PI / 3 &&
-            angle < 5 * PI / 6)
-
-        {
-            baseToTheNorthwest = true;
+            worldCompassDirections[1] = true;
         }
 
         if (vectorToEnemyBase.x < 0 &&
@@ -234,18 +136,7 @@ public class Navigation : MonoBehaviour
             angle > 5 * PI / 6)
 
         {
-            baseToTheWest = true;
-        }
-
-        if (vectorToEnemyBase.x < 0 &&
-            vectorToEnemyBase.x > -Mathf.Sqrt(3f) / 2f * radarRadius &&
-            vectorToEnemyBase.y < 0 &&
-            vectorToEnemyBase.y > -Mathf.Sqrt(3f) / 2f * radarRadius &&
-            angle > 2 * PI / 3 &&
-            angle < 5 * PI / 6)
-
-        {
-            baseToTheSouthwest = true;
+            worldCompassDirections[2] = true;
         }
 
         if (vectorToEnemyBase.x < 1f / 2f * radarRadius &&
@@ -256,82 +147,76 @@ public class Navigation : MonoBehaviour
             angle < 2 * PI / 3f)
 
         {
-            baseToTheSouth = true;
+            worldCompassDirections[3] = true;
         }
 
+        if (vectorToEnemyBase.x > 0 &&
+            vectorToEnemyBase.x < Mathf.Sqrt(3f) / 2f * radarRadius &&
+            vectorToEnemyBase.y > 0 &&
+            vectorToEnemyBase.y < Mathf.Sqrt(3f) / 2f * radarRadius &&
+            angle > PI / 6 &&
+            angle < PI / 3)
+
+        {
+            worldCompassDirections[4] = true;
+        }
+
+        if (vectorToEnemyBase.x < 0 &&
+            vectorToEnemyBase.x > -Mathf.Sqrt(3f) / 2f * radarRadius &&
+            vectorToEnemyBase.y > 0 &&
+            vectorToEnemyBase.y < Mathf.Sqrt(3f) / 2f * radarRadius &&
+            angle > 2 * PI / 3 &&
+            angle < 5 * PI / 6)
+
+        {
+            worldCompassDirections[5] = true;
+        }
+
+        if (vectorToEnemyBase.x > 0 &&
+            vectorToEnemyBase.x < Mathf.Sqrt(3f) / 2f * radarRadius &&
+            vectorToEnemyBase.y < 0 &&
+            vectorToEnemyBase.y > -Mathf.Sqrt(3f) / 2f * radarRadius &&
+            angle > PI / 6 &&
+            angle < PI / 3)
+
+        {
+            worldCompassDirections[6] = true;
+        }
+
+        if (vectorToEnemyBase.x < 0 &&
+            vectorToEnemyBase.x > -Mathf.Sqrt(3f) / 2f * radarRadius &&
+            vectorToEnemyBase.y < 0 &&
+            vectorToEnemyBase.y > -Mathf.Sqrt(3f) / 2f * radarRadius &&
+            angle > 2 * PI / 3 &&
+            angle < 5 * PI / 6)
+
+        {
+            worldCompassDirections[7] = true;
+        }
     }
 
     void UpdateCannonDirectionRadar()
     {
-        if (cannon.transform.localEulerAngles.z < PI / 6 || cannon.transform.localEulerAngles.z > 11 * PI / 6)
-        {
-            for (int i = 0; i < cannonRotationRawImageArray.Length; i++)
-            {
-                cannonRotationRawImageArray[i].gameObject.SetActive(false);
-            }
-        }
+        UpdateCannonRotationRadar(0, -PI / 6, PI / 6);
+        UpdateCannonRotationRadar(1, PI / 6, PI / 3);
+        UpdateCannonRotationRadar(2, PI / 3, 2 * PI / 3);
+        UpdateCannonRotationRadar(3, 2 * PI / 3, 5 * PI / 6);
+        UpdateCannonRotationRadar(4, 5 * PI / 6, 7 * PI / 6);
+        UpdateCannonRotationRadar(5, 7 * PI / 6, 4 * PI / 3);
+        UpdateCannonRotationRadar(6, 4 * PI / 3, 5 * PI / 3);
+        UpdateCannonRotationRadar(7, 5 * PI / 3, 11 * PI / 6);
+    }
 
-        if (cannon.transform.localEulerAngles.z > PI / 6 && cannon.transform.localEulerAngles.z < PI / 3)
+    void UpdateCannonRotationRadar(int index, int leftBoundary, int rightBoundary)
+    {
+        if (cannon.transform.localEulerAngles.z > leftBoundary && cannon.transform.localEulerAngles.z < rightBoundary)
         {
-            for (int i = 0; i < cannonRotationRawImageArray.Length; i++)
+            foreach (var rawImage in cannonRotationRawImageArray)
             {
-                cannonRotationRawImageArray[i].gameObject.SetActive(false);
+                rawImage.gameObject.SetActive(false);
             }
-            cannonRotationRawImageArray[0].gameObject.SetActive(true);
-        }
-
-        if (cannon.transform.localEulerAngles.z > PI / 3 && cannon.transform.localEulerAngles.z < 2 * PI / 3)
-        {
-            for (int i = 0; i < cannonRotationRawImageArray.Length; i++)
-            {
-                cannonRotationRawImageArray[i].gameObject.SetActive(false);
-            }
-            cannonRotationRawImageArray[1].gameObject.SetActive(true);
-        }
-
-        if (cannon.transform.localEulerAngles.z > 2 * PI / 3 && cannon.transform.localEulerAngles.z < 5 * PI / 6)
-        {
-            for (int i = 0; i < cannonRotationRawImageArray.Length; i++)
-            {
-                cannonRotationRawImageArray[i].gameObject.SetActive(false);
-            }
-            cannonRotationRawImageArray[2].gameObject.SetActive(true);
-        }
-
-        if (cannon.transform.localEulerAngles.z > 5 * PI / 6 && cannon.transform.localEulerAngles.z < 7 * PI / 6)
-        {
-            for (int i = 0; i < cannonRotationRawImageArray.Length; i++)
-            {
-                cannonRotationRawImageArray[i].gameObject.SetActive(false);
-            }
-            cannonRotationRawImageArray[3].gameObject.SetActive(true);
-        }
-
-        if (cannon.transform.localEulerAngles.z > 7 * PI / 6 && cannon.transform.localEulerAngles.z < 4 * PI / 3)
-        {
-            for (int i = 0; i < cannonRotationRawImageArray.Length; i++)
-            {
-                cannonRotationRawImageArray[i].gameObject.SetActive(false);
-            }
-            cannonRotationRawImageArray[4].gameObject.SetActive(true);
-        }
-
-        if (cannon.transform.localEulerAngles.z > 4 * PI / 3 && cannon.transform.localEulerAngles.z < 5 * PI / 3)
-        {
-            for (int i = 0; i < cannonRotationRawImageArray.Length; i++)
-            {
-                cannonRotationRawImageArray[i].gameObject.SetActive(false);
-            }
-            cannonRotationRawImageArray[5].gameObject.SetActive(true);
-        }
-
-        if (cannon.transform.localEulerAngles.z > 5 * PI / 3 && cannon.transform.localEulerAngles.z < 11 * PI / 6)
-        {
-            for (int i = 0; i < cannonRotationRawImageArray.Length; i++)
-            {
-                cannonRotationRawImageArray[i].gameObject.SetActive(false);
-            }
-            cannonRotationRawImageArray[6].gameObject.SetActive(true);
+            if (index == 0) return;
+            cannonRotationRawImageArray[index].gameObject.SetActive(true);
         }
     }
 }

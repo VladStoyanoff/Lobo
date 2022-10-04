@@ -1,14 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using System.IO;
 using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
     static int currentScore = 0;
+    bool newHighScoreSet;
     int bestScore;
     int bestLevel;
     int bestDensity;
+
+    void Start()
+    {
+        GameManager.OnGameEnded += GameManager_OnGameEnded;
+        LoadBestScore();
+    }
+
+    void GameManager_OnGameEnded(object sender, EventArgs e)
+    {
+        TrySaveBestScore();
+        LoadBestScore();
+    }
 
     public void ModifyScore(int score)
     {
@@ -21,7 +33,12 @@ public class ScoreManager : MonoBehaviour
         currentScore = 0;
     }
 
-    [System.Serializable]
+    public void SetHighScoreBool(bool boolean)
+    {
+        newHighScoreSet = boolean;
+    }
+
+    [Serializable]
     class SaveBestData
     {
         public int score;
@@ -29,26 +46,28 @@ public class ScoreManager : MonoBehaviour
         public int level;
     }
 
-    [System.Serializable]
+    [Serializable]
     class SaveLastRun
     {
         public int density;
         public int level;
     }
-
-    public void TrySaveBestScore()
+    
+    void TrySaveBestScore()
     {
+        var uiManager = FindObjectOfType<UIManager>();
+
         var data = new SaveBestData();
         if (currentScore < bestScore) return;
+        newHighScoreSet = true;
         data.score = currentScore;
-        data.density = FindObjectOfType<UIManager>().GetDensitySetting();
-        data.level = FindObjectOfType<UIManager>().GetLevelSetting();
+        data.density = uiManager.GetDensitySetting();
+        data.level = uiManager.GetLevelSetting();
         var json = JsonUtility.ToJson(data);
         File.WriteAllText(Application.persistentDataPath + "/saveBestScoreFile.json", json);
     }
 
-
-    public void LoadBestScore()
+    void LoadBestScore()
     {
         var path = Application.persistentDataPath + "/saveBestScoreFile.json";
         if (File.Exists(path))
@@ -66,4 +85,5 @@ public class ScoreManager : MonoBehaviour
     public int GetBestScore() => bestScore;
     public int GetBestLevel() => bestLevel;
     public int GetBestDensity() => bestDensity;
+    public bool GetNewHighScoreSetBool() => newHighScoreSet;
 }

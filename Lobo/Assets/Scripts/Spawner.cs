@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Spawner : MonoBehaviour
 {
@@ -15,6 +13,11 @@ public class Spawner : MonoBehaviour
 
     List<GameObject> enemyBases = new List<GameObject>();
 
+    void Awake()
+    {
+        mazeGenerator = FindObjectOfType<MazeGenerator>();
+    }
+
     void Start()
     {
         GameManager.OnGameStarted += GameManager_OnGameStarted;
@@ -22,7 +25,6 @@ public class Spawner : MonoBehaviour
 
     void GameManager_OnGameStarted(object sender, EventArgs e)
     {
-        mazeGenerator = FindObjectOfType<MazeGenerator>();
         SpawnPlayer();
         SpawnEnemyBases();
     }
@@ -35,18 +37,19 @@ public class Spawner : MonoBehaviour
         if (FindObjectOfType<PlayerController>() == null)
         {
             player = Instantiate(playerPrefab, spawnPlayerHere.transform.position, Quaternion.identity);
-            player.GetComponent<FuelTank>().RefillTankSlow();
         }
         else
         {
             player.transform.position = spawnPlayerHere.transform.position;
+            player.GetComponent<FuelTank>().RefillTank();
         }
     }
 
     void SpawnEnemyBases()
     {
+        var basesToSpawn = 6;
         enemyBases.Clear();
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < basesToSpawn; i++)
         {
             var allNodes = mazeGenerator.GetMazeNodesList();
             var randomNode = allNodes[UnityEngine.Random.Range(0, allNodes.Count)];

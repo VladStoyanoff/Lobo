@@ -1,13 +1,11 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class FuelTank : MonoBehaviour
 {
-    [SerializeField] Image fuelTank;
-
+    Image fuelTank;
     PlayerController playerController;
     float fillAmount = .0001f;
 
@@ -15,16 +13,15 @@ public class FuelTank : MonoBehaviour
     {
         playerController = GetComponent<PlayerController>();
         fuelTank = GameObject.FindGameObjectWithTag("UI").transform.GetChild(1).GetChild(4).GetChild(0).GetChild(0).GetComponent<Image>();
+        StartCoroutine(FillTank());
     }
 
     void Update()
     {
         if (playerController.GetMovementInput() == new Vector2(0, 0)) return;
         fuelTank.fillAmount -= fillAmount;
-        if (fuelTank.fillAmount <= 0)
-        {
-            playerController.RestartPlayerPosition();
-        }
+        if (fuelTank.fillAmount > 0) return;
+        playerController.RestartPlayerPosition();
     }
 
     public void RefillTank()
@@ -32,16 +29,16 @@ public class FuelTank : MonoBehaviour
         fuelTank.fillAmount = 1;
     }
 
-    public void RefillTankSlow()
+    public void EmptyTank()
     {
-        StartCoroutine(RefillTankSlowCoroutine());
+        fuelTank.fillAmount = 0;
     }
 
-    IEnumerator RefillTankSlowCoroutine()
+    IEnumerator FillTank()
     {
-        while(GameObject.FindGameObjectWithTag("UI").transform.GetChild(1).GetChild(4).GetChild(0).GetChild(0).GetComponent<Image>().fillAmount < 1)
+        while(fuelTank.fillAmount < 1)
         {
-            GameObject.FindGameObjectWithTag("UI").transform.GetChild(1).GetChild(4).GetChild(0).GetChild(0).GetComponent<Image>().fillAmount += .01f;
+            fuelTank.fillAmount += .01f;
             yield return new WaitForSeconds(.01f);
         }
     }
