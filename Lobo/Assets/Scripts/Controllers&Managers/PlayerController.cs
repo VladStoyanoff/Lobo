@@ -4,22 +4,21 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    float timeSinceLastShot = Mathf.Infinity;
     InputActions inputActionsScript;
+
+    [SerializeField] GameObject bulletPrefab;
+    [SerializeField] GameObject cannon;
+    [SerializeField] Transform bulletSpawnPoint;
     [SerializeField] float bulletSpeed = 2f;
     [SerializeField] float cannonRotationSpeed = 100;
-
-    float timeSinceLastShot = Mathf.Infinity;
     const int FIRE_RATE = 2;
 
+    [SerializeField] float moveSpeed;
     Vector2 movementInput;
 
     GameManager gameManager;
     Spawner spawner;
-
-    [SerializeField] float moveSpeed;
-    [SerializeField] GameObject bulletPrefab;
-    [SerializeField] GameObject cannon;
-    [SerializeField] Transform bulletSpawnPoint;
 
     void Awake()
     {
@@ -32,25 +31,24 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (gameManager.GetCollidedBool())
-        {
-            gameManager.SetCollidedBool();
-        }
-
         timeSinceLastShot += Time.deltaTime;
+
         UpdateMovement();
         TryRotateCannon();
         TryShootProjectile();
+
+        if (gameManager.GetCollidedBool() == false) return;
+        gameManager.SetCollidedBool();
     }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
+        if (gameManager.GetCollidedBool()) return;
         RestartPlayerPosition();
     }
 
     public void RestartPlayerPosition()
     {
-        if (gameManager.GetCollidedBool()) return;
         gameManager.ReduceLives();
         spawner.SpawnPlayer();
     }

@@ -20,6 +20,4 @@ public class CameraManager : MonoBehaviour
         if (playerController == null) return;
         cinemachineCamera.LookAt = cinemachineCamera.Follow = playerController.transform;
     }
-
-    // FIX: Boundaries on the far outmost parts of the level: Camera shouldnt see the void
 }

@@ -1,5 +1,7 @@
+using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -15,6 +17,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] TMP_Text lastDensityText;
     [SerializeField] TMP_Text lastLevelText;
 
+    [SerializeField] Image coverImage;
 
     ScoreManager scoreManager;
 
@@ -28,20 +31,28 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
+        GameManager.OnGameStarted += GameManager_OnGameStarted;
+        GameManager.OnGameStarted += GameManager_OnGameEnded;
         scoreManager.LoadBestScore();
+    }
+
+    void GameManager_OnGameStarted(object sender, EventArgs e)
+    {
+        coverImage.gameObject.GetComponent<Image>().enabled = false;
+    }
+
+    void GameManager_OnGameEnded(object sender, EventArgs e)
+    {
+        coverImage.gameObject.GetComponent<Image>().enabled = true;
+
+        highScoreText.text = "High Score: " + scoreManager.GetBestScore().ToString();
+        bestLevelText.text = scoreManager.GetBestLevel().ToString();
+        bestDensityText.text = scoreManager.GetBestDensity().ToString();
     }
 
     void Update()
     {
-        UpdateScore();
-    }
-
-    void UpdateScore()
-    {
         scoreText.text = "Score: " + scoreManager.GetScore().ToString();
-        highScoreText.text = "High Score: " + scoreManager.GetBestScore().ToString();
-        bestLevelText.text = scoreManager.GetBestLevel().ToString();
-        bestDensityText.text = scoreManager.GetBestDensity().ToString();
     }
 
     public void ReadLevelIF()

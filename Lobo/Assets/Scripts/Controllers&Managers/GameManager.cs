@@ -10,13 +10,15 @@ public class GameManager : MonoBehaviour
 
     bool collided;
     bool isGameActive;
+
     int playerLives = 4;
+
     [SerializeField] GameObject playerLivesIndicator;
     [SerializeField] GameObject menuPanel;
-    [SerializeField] Image coverImage;
     [SerializeField] GameObject endGamePanel;
 
     public static event EventHandler OnGameStarted;
+    public static event EventHandler OnGameEnded;
 
     InputActions inputActionsScript;
     UIManager uiManager;
@@ -41,10 +43,9 @@ public class GameManager : MonoBehaviour
         playerLives--;
         var oneLife = playerLivesIndicator.transform.GetChild(playerLives);
         oneLife.gameObject.SetActive(false);
-        if (playerLives == 0)
-        {
-            EndBehaviour();
-        }
+        if (playerLives != 0) return;
+        OnGameEnded?.Invoke(this, EventArgs.Empty);
+        EndBehaviour();
     }
 
     void EndBehaviour()
@@ -92,7 +93,6 @@ public class GameManager : MonoBehaviour
 
         Destroy(FindObjectOfType<PlayerController>().gameObject);
         GameObject.FindGameObjectWithTag("UI").transform.GetChild(1).GetChild(4).GetChild(0).GetChild(0).GetComponent<Image>().fillAmount = 0;
-        coverImage.gameObject.SetActive(true);
         FindObjectOfType<ScoreManager>().TrySaveBestScore();
         FindObjectOfType<ScoreManager>().LoadBestScore();
     }
@@ -132,7 +132,6 @@ public class GameManager : MonoBehaviour
         FindObjectOfType<UIManager>().SetLastLevelSettings();
         menuPanel.SetActive(false);
         if (isGameActive == false) OnGameStarted?.Invoke(this, EventArgs.Empty);
-        coverImage.gameObject.SetActive(false);
         isGameActive = true;
     }
 
