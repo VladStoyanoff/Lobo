@@ -36,7 +36,9 @@ public class FuelTank : MonoBehaviour
 
     IEnumerator FillTank()
     {
-        while(fuelTank.fillAmount < 1)
+        fuelTank.enabled = true;
+        fuelTank.fillAmount = 0;
+        while (fuelTank.fillAmount < 1)
         {
             fuelTank.fillAmount += .01f;
             yield return new WaitForSeconds(.01f);

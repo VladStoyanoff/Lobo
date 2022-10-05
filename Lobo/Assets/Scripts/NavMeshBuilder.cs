@@ -12,6 +12,7 @@ public class NavMeshBuilder : MonoBehaviour
     }
     void GameManager_OnGameStarted(object sender, EventArgs e)
     {
+        if (FindObjectOfType<GameManager>().GetIsGameActiveBool() == false) return;
         GetComponent<NavMeshSurface>().BuildNavMesh();
     }
 }

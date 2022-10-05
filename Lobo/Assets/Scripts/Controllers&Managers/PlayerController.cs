@@ -28,16 +28,6 @@ public class PlayerController : MonoBehaviour
         spawner = FindObjectOfType<Spawner>();
     }
 
-    void Start()
-    {
-        GameManager.OnGameEnded += GameManager_OnGameEnded;
-    }
-
-    void GameManager_OnGameEnded(object sender, EventArgs e)
-    {
-        Destroy(gameObject);
-    }
-
     void Update()
     {
         timeSinceLastShot += Time.deltaTime;

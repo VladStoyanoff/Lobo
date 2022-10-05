@@ -16,6 +16,7 @@ public class MazeGenerator : MonoBehaviour
 
     void GameManager_OnGameStarted(object sender, EventArgs e)
     {
+        if (FindObjectOfType<GameManager>().GetIsGameActiveBool() == false) return;
         GenerateMaze();
     }
 

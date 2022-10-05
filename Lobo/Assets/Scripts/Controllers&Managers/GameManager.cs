@@ -34,18 +34,15 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         StartGame();
-
-        if (FindObjectOfType<Spawner>().GetEnemyBases().Count == 0 && isGameActive)
-        {
-            StartCoroutine(WinGameScreen());
-        }
+        if (isGameActive == false) return;
+        if (FindObjectOfType<Spawner>().GetEnemyBases().Count != 0) return;
+        StartCoroutine(WinGameScreen());
     }
 
     void StartGame()
     {
         if (inputActionsScript.Game.StartGame.IsPressed() == false) return;
         if (isGameActive == false) OnGameStarted?.Invoke(this, EventArgs.Empty);
-        isGameActive = true;
     }
 
     public void ReduceLives()
@@ -61,6 +58,8 @@ public class GameManager : MonoBehaviour
 
     void EndGame()
     {
+        isGameActive = false;
+
         // Reset player lives
         for (int i = 0; i < playerLivesIndicator.transform.childCount; i++)
         {
@@ -80,9 +79,9 @@ public class GameManager : MonoBehaviour
             baseRadar.transform.GetChild(i).GetComponent<RawImage>().color = Color.black;
         }
 
-        fuelTank.transform.GetChild(0).GetComponent<Image>().fillAmount = 0;
+        fuelTank.transform.GetChild(0).GetComponent<Image>().enabled = false;
 
-        // Destroy non-persistent objects
+        // Find and destroy non-persistent objects
         var patrolRoutes = GameObject.FindGameObjectsWithTag("PatrolRoute");
         var enemyBases = GameObject.FindGameObjectsWithTag("EnemyBase");
         var mazeNodes = GameObject.FindGameObjectsWithTag("Maze Node");
@@ -96,6 +95,8 @@ public class GameManager : MonoBehaviour
         {
             Destroy(nonPersistentObject.gameObject);
         }
+
+        Destroy(FindObjectOfType<PlayerController>().transform.gameObject);
     }
 
     IEnumerator WinGameScreen()

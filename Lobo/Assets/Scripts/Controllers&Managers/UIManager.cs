@@ -21,6 +21,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject menuPanel;
 
     ScoreManager scoreManager;
+    GameManager gameManager;
 
     bool hasParsedLevelSetting;
     bool hasParsedDensitySetting;
@@ -28,6 +29,7 @@ public class UIManager : MonoBehaviour
     void Awake()
     {
         scoreManager = FindObjectOfType<ScoreManager>();
+        gameManager = FindObjectOfType<GameManager>();
     }
 
     void Start()
@@ -44,6 +46,7 @@ public class UIManager : MonoBehaviour
             Debug.LogError("In order to start the game, the level and density settings must be set");
             return;
         }
+        gameManager.SetIsGameActiveBool(true);
         menuPanel.SetActive(false);
         coverImage.gameObject.GetComponent<Image>().enabled = false;
         scoreManager.ClearScore();
@@ -53,7 +56,7 @@ public class UIManager : MonoBehaviour
     {
         coverImage.gameObject.GetComponent<Image>().enabled = true;
         menuPanel.SetActive(true);
-        FindObjectOfType<GameManager>().SetIsGameActiveBool(false);
+        gameManager.SetIsGameActiveBool(false);
 
         lastDensityText.text = densitySetting.ToString();
         lastLevelText.text = levelSetting.ToString();
@@ -85,6 +88,7 @@ public class UIManager : MonoBehaviour
         else
         {
             Debug.LogError("The level setting will only accept integers from 1-9 as input");
+            hasParsedLevelSetting = false;
         }
     }
 
@@ -98,6 +102,7 @@ public class UIManager : MonoBehaviour
         else
         {
             Debug.LogError("The density setting will only accept integers from 1-5 as input");
+            hasParsedDensitySetting = false;
         }
     }
 

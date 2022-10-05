@@ -16,6 +16,7 @@ public class CameraManager : MonoBehaviour
 
     void GameManager_OnGameStarted(object sender, EventArgs e)
     {
+        if (FindObjectOfType<GameManager>().GetIsGameActiveBool() == false) return;
         playerController = FindObjectOfType<PlayerController>();
         if (playerController == null) return;
         cinemachineCamera.LookAt = cinemachineCamera.Follow = playerController.transform;
