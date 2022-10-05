@@ -1,6 +1,6 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,24 +16,36 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject playerLivesIndicator;
     [SerializeField] GameObject endGamePanel;
 
+    [SerializeField] GameObject cannonRotationRadar;
+    [SerializeField] GameObject baseRadar;
+    [SerializeField] GameObject fuelTank;
+
     public static event EventHandler OnGameStarted;
     public static event EventHandler OnGameEnded;
 
     InputActions inputActionsScript;
-    UIManager uiManager;
 
     void Awake()
     {
         inputActionsScript = new InputActions();
         inputActionsScript.Game.Enable();
-
-        uiManager = FindObjectOfType<UIManager>();
     }
 
     void Update()
     {
         StartGame();
-        EndGame();
+
+        if (FindObjectOfType<Spawner>().GetEnemyBases().Count == 0 && isGameActive)
+        {
+            StartCoroutine(WinGameScreen());
+        }
+    }
+
+    void StartGame()
+    {
+        if (inputActionsScript.Game.StartGame.IsPressed() == false) return;
+        if (isGameActive == false) OnGameStarted?.Invoke(this, EventArgs.Empty);
+        isGameActive = true;
     }
 
     public void ReduceLives()
@@ -44,67 +56,55 @@ public class GameManager : MonoBehaviour
         oneLife.gameObject.SetActive(false);
         if (playerLives != 0) return;
         OnGameEnded?.Invoke(this, EventArgs.Empty);
-        EndBehaviour();
+        EndGame();
     }
 
-    void EndBehaviour()
+    void EndGame()
     {
-        var patrolRoutes = GameObject.FindGameObjectsWithTag("PatrolRoute");
-        foreach (var patrolRoute in patrolRoutes)
-        {
-            Destroy(patrolRoute.gameObject);
-        }
-        var enemyBases = GameObject.FindGameObjectsWithTag("EnemyBase");
-        foreach (var enemyBase in enemyBases)
-        {
-            Destroy(enemyBase.gameObject);
-        }
-        var mazeNodes = GameObject.FindGameObjectsWithTag("Maze Node");
-        foreach (var mazeNode in mazeNodes)
-        {
-            Destroy(mazeNode.gameObject);
-        }
+        // Reset player lives
         for (int i = 0; i < playerLivesIndicator.transform.childCount; i++)
         {
             playerLivesIndicator.transform.GetChild(i).gameObject.SetActive(true);
             playerLives = 4;
         }
 
-        var enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        for (int i = 0; i < enemies.Length; i++)
-        {
-            Destroy(enemies[i]);
-        }
-
+        // Reset radars and fuel tank
         for (int i = 0; i < 7; i++)
         {
-            GameObject.FindGameObjectWithTag("UI").transform.GetChild(1).GetChild(6).GetChild(0).GetChild(0).GetChild(i + 1).GetComponent<RawImage>().gameObject.SetActive(false);
+            cannonRotationRadar.transform.GetChild(i).gameObject.SetActive(false);
         }
-        GameObject.FindGameObjectWithTag("UI").transform.GetChild(1).GetChild(6).GetChild(0).GetChild(0).GetChild(0).GetComponent<RawImage>().gameObject.SetActive(true);
+        cannonRotationRadar.transform.GetChild(0).gameObject.SetActive(true);
 
         for (int i = 0; i < 4; i++)
         {
-            GameObject.FindGameObjectWithTag("UI").transform.GetChild(1).GetChild(5).GetChild(i).GetComponent<RawImage>().color = Color.black;
+            baseRadar.transform.GetChild(i).GetComponent<RawImage>().color = Color.black;
         }
 
-        GameObject.FindGameObjectWithTag("UI").transform.GetChild(1).GetChild(4).GetChild(0).GetChild(0).GetComponent<Image>().fillAmount = 0;
-    }
+        fuelTank.transform.GetChild(0).GetComponent<Image>().fillAmount = 0;
 
-    void EndGame()
-    {
-        if (FindObjectOfType<Spawner>().GetEnemyBases().Count == 0 && isGameActive)
+        // Destroy non-persistent objects
+        var patrolRoutes = GameObject.FindGameObjectsWithTag("PatrolRoute");
+        var enemyBases = GameObject.FindGameObjectsWithTag("EnemyBase");
+        var mazeNodes = GameObject.FindGameObjectsWithTag("Maze Node");
+        var enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+        var listOne = patrolRoutes.Concat(enemyBases);
+        var listTwo = listOne.Concat(mazeNodes);
+        var listWithNonPersistentObjects = listTwo.Concat(enemies);
+
+        foreach (var nonPersistentObject in listWithNonPersistentObjects)
         {
-            StartCoroutine(EndGameScreen());
+            Destroy(nonPersistentObject.gameObject);
         }
     }
 
-    IEnumerator EndGameScreen()
+    IEnumerator WinGameScreen()
     {
         endGamePanel.SetActive(true);
         isGameActive = false;
         yield return new WaitForSeconds(3);
         endGamePanel.SetActive(false);
-        EndBehaviour();
+        EndGame();
     }
 
     public void SetCollidedBool(bool boolean)
@@ -115,13 +115,6 @@ public class GameManager : MonoBehaviour
     public void SetIsGameActiveBool(bool boolean)
     {
         isGameActive = boolean;
-    }
-
-    void StartGame()
-    {
-        if (inputActionsScript.Game.StartGame.IsPressed() == false) return;
-        if (isGameActive == false) OnGameStarted?.Invoke(this, EventArgs.Empty);
-        isGameActive = true;
     }
 
     public bool GetIsGameActiveBool() => isGameActive;

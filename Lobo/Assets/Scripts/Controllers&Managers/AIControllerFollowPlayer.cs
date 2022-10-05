@@ -65,8 +65,9 @@ public class AIControllerFollowPlayer : MonoBehaviour
         var isNotInRangeOfPlayer = distanceToPlayer > CHASE_RADIUS;
         if (isNotInRangeOfPlayer) return;
 
-        // Chase and shoot
         navMeshAgent.destination = player.transform.position;
+
+        // Chase and shoot
         if (timeSinceLastShot < FIRE_RATE) return;
         var bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
         bullet.tag = "Enemy Bullet";

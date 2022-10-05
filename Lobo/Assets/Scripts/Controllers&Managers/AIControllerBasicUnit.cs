@@ -44,40 +44,60 @@ public class AIControllerBasicUnit : MonoBehaviour
     void PatrolBehaviour()
     {
         // Travel to current waypoint
-        var waypointList = patrolRouteGenerator.GetWaypointsList();
-        var waypointPosition = waypointList[waypointIndex].position;
+        AssignPatrolAndCurrentWaypoint(out var waypointPosition, out var waypointList);
+        navMeshAgent.destination = waypointPosition;
 
         var angle = Mathf.Atan2(waypointPosition.y - transform.position.y, waypointPosition.x - transform.position.x) * Mathf.Rad2Deg;
         var targetRotation = Quaternion.Euler(new Vector3(0, 0, angle));
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, 100 * Time.deltaTime);
 
-        navMeshAgent.destination = waypointPosition;
-
-        // Logic that decides when the waypoint should be incremented
-        var distanceToWaypoint = Vector3.Distance(transform.position, waypointPosition);
-        if (distanceToWaypoint > WAYPOINT_WIDTH) return;
-        waypointIndex++;
-
-        // If last waypoint is reached, restart patrol
-        if (waypointIndex != waypointList.Count) return;
-        waypointIndex = 0;
+        StartApproachingNextWaypoint(waypointPosition);
+        RestartPatrolRoute(waypointList);
     }
 
     void AttackBehaviour()
     {
-        // Check whether player is in range
         if (player == null) return;
-        var distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
-        var isNotInRangeOfPlayer = distanceToPlayer > CHASE_RADIUS;
+        CheckIfPlayerIsInRange(out var isNotInRangeOfPlayer);
         if (isNotInRangeOfPlayer) return;
+        Shoot(transform.right);
+    }
 
+    void AssignPatrolAndCurrentWaypoint(out Vector3 waypointPosition, out List<Transform> waypointList)
+    {
+        var list = patrolRouteGenerator.GetWaypointsList();
+        var waypoint = list[waypointIndex].position;
+        waypointList = list;
+        waypointPosition = waypoint;
+    }
+
+    void StartApproachingNextWaypoint(Vector3 waypointPosition)
+    {
+        var distanceToWaypoint = Vector3.Distance(transform.position, waypointPosition);
+        if (distanceToWaypoint > WAYPOINT_WIDTH) return;
+        waypointIndex++;
+    }
+
+    void RestartPatrolRoute(List<Transform> waypointList)
+    {
+        if (waypointIndex != waypointList.Count) return;
+        waypointIndex = 0;
+    }
+
+    void CheckIfPlayerIsInRange(out bool isNotInRangeOfPlayer)
+    {
+        var distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+        var check = distanceToPlayer > CHASE_RADIUS;
+        isNotInRangeOfPlayer = check;
+    }
+
+    void Shoot(Vector3 bulletDirection)
+    {
         // Chase and shoot
         if (timeSinceLastShot < FIRE_RATE) return;
         var bullet = Instantiate(bulletPrefab, transform.position, Quaternion.Euler(bulletSpawnPoint.transform.localEulerAngles));
         bullet.tag = "Enemy Bullet";
-        bullet.GetComponent<Rigidbody2D>().velocity = transform.right * BULLET_SPEED;
+        bullet.GetComponent<Rigidbody2D>().velocity = bulletDirection * BULLET_SPEED;
         timeSinceLastShot = 0;
-
-        // REFACTOR ^^ You can probably figure out a way to turn this into a general method and pass it to each controller
     }
 }
