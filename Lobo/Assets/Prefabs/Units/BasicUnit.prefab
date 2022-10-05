@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3407852391219512756}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: BulletSpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 800897785698860793}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.17, z: 0}
+  m_LocalPosition: {x: 1.24, y: 0.03, z: 0}
   m_LocalScale: {x: 3.333333, y: 3.333333, z: 3.333333}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -45,9 +45,9 @@ GameObject:
   - component: {fileID: 3655052046136966850}
   - component: {fileID: 7815535642124060861}
   - component: {fileID: 8921798474507869871}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: BasicUnit
-  m_TagString: Enemy
+  m_TagString: BasicUnit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -166,7 +166,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2961703388954153315}
   - component: {fileID: 7478846325789246405}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 3218847193894644573}
   - component: {fileID: 6876838940035900403}
   - component: {fileID: 22653472076463713}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: RamPlayerUnit
-  m_TagString: Enemy
+  m_TagString: RamPlayerUnit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -105,7 +105,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5401747703669053500}
   - component: {fileID: 8621892790116998128}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}

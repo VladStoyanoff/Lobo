@@ -7,7 +7,9 @@ public class FuelTank : MonoBehaviour
 {
     Image fuelTank;
     PlayerController playerController;
-    float fillAmount = .0001f;
+    float fuelLostAmount = .0001f;
+    float fuelFillAmount = .01f;
+    float secondsBetweenFill = .01f;
 
     void Start()
     {
@@ -19,7 +21,7 @@ public class FuelTank : MonoBehaviour
     void Update()
     {
         if (playerController.GetMovementInput() == new Vector2(0, 0)) return;
-        fuelTank.fillAmount -= fillAmount;
+        fuelTank.fillAmount -= fuelLostAmount;
         if (fuelTank.fillAmount > 0) return;
         playerController.RestartPlayerPosition();
     }
@@ -40,8 +42,8 @@ public class FuelTank : MonoBehaviour
         fuelTank.fillAmount = 0;
         while (fuelTank.fillAmount < 1)
         {
-            fuelTank.fillAmount += .01f;
-            yield return new WaitForSeconds(.01f);
+            fuelTank.fillAmount += fuelFillAmount;
+            yield return new WaitForSeconds(secondsBetweenFill);
         }
     }
 }

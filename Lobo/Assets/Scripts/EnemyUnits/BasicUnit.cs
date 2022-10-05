@@ -18,15 +18,12 @@ public class BasicUnit : MonoBehaviour
     {
         timeSinceLastShot += Time.deltaTime;
 
-        // Rotate towards current waypoint position
-        var angle = Mathf.Atan2(aiController.GetWaypointPosition().y - transform.position.y, aiController.GetWaypointPosition().x - transform.position.x) * Mathf.Rad2Deg;
-        var targetRotation = Quaternion.Euler(new Vector3(0, 0, angle));
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, 100 * Time.deltaTime);
+        aiController.RotateTowards(aiController.GetWaypointPosition());
         if (aiController.GetIsNotInRangeOfPlayerBool()) return;
 
         // Shoot if player is nearby
         if (timeSinceLastShot < FIRE_RATE) return;
-        var bullet = Instantiate(aiController.GetBulletPrefab(), transform.position, Quaternion.Euler(bulletSpawnPoint.transform.localEulerAngles));
+        var bullet = Instantiate(aiController.GetBulletPrefab(), bulletSpawnPoint.transform.position, Quaternion.identity);
         bullet.tag = "Enemy Bullet";
         bullet.GetComponent<Rigidbody2D>().velocity = transform.right * BULLET_SPEED;
         timeSinceLastShot = 0;

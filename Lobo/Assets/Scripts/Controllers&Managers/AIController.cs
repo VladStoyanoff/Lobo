@@ -80,6 +80,13 @@ public class AIController : MonoBehaviour
         isNotInRangeOfPlayer = check;
     }
 
+    public void RotateTowards(Vector2 positionToRotateTowards)
+    {
+        var angle = Mathf.Atan2(positionToRotateTowards.y - transform.position.y, positionToRotateTowards.x - transform.position.x) * Mathf.Rad2Deg;
+        var targetRotation = Quaternion.Euler(new Vector3(0, 0, angle));
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, 1000);
+    }
+
     public Vector3 GetWaypointPosition() => waypointPosition;
     public bool GetIsNotInRangeOfPlayerBool() => isNotInRangeOfPlayer;
     public GameObject GetBulletPrefab() => bulletPrefab;

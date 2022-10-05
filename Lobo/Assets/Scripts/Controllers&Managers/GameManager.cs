@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
 
     public void ReduceLives()
     {
-        collided = true;
+        SetCollidedBool(true);
         playerLives--;
         var oneLife = playerLivesIndicator.transform.GetChild(playerLives);
         oneLife.gameObject.SetActive(false);
@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour
 
     void EndGame()
     {
-        isGameActive = false;
+        SetIsGameActiveBool(false);
 
         // Reset player lives
         for (int i = 0; i < playerLivesIndicator.transform.childCount; i++)
@@ -85,11 +85,15 @@ public class GameManager : MonoBehaviour
         var patrolRoutes = GameObject.FindGameObjectsWithTag("PatrolRoute");
         var enemyBases = GameObject.FindGameObjectsWithTag("EnemyBase");
         var mazeNodes = GameObject.FindGameObjectsWithTag("Maze Node");
-        var enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        var basicUnits = GameObject.FindGameObjectsWithTag("BasicUnit");
+        var followPlayerUnits = GameObject.FindGameObjectsWithTag("ChasePlayerUnit");
+        var ramPlayerUnits = GameObject.FindGameObjectsWithTag("RamPlayerUnit");
 
         var listOne = patrolRoutes.Concat(enemyBases);
         var listTwo = listOne.Concat(mazeNodes);
-        var listWithNonPersistentObjects = listTwo.Concat(enemies);
+        var listThree = listTwo.Concat(basicUnits);
+        var listFour = listThree.Concat(followPlayerUnits);
+        var listWithNonPersistentObjects = listFour.Concat(ramPlayerUnits);
 
         foreach (var nonPersistentObject in listWithNonPersistentObjects)
         {
@@ -102,7 +106,7 @@ public class GameManager : MonoBehaviour
     IEnumerator WinGameScreen()
     {
         endGamePanel.SetActive(true);
-        isGameActive = false;
+        SetIsGameActiveBool(false);
         yield return new WaitForSeconds(3);
         endGamePanel.SetActive(false);
         EndGame();

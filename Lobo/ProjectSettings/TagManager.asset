@@ -9,11 +9,14 @@ TagManager:
   - Enemy Bullet
   - Player Bullet
   - UI
-  - Enemy
   - PatrolRoute
   - EnemyBase
   - Maze Node
   - Wall
+  - BasicUnit
+  - ChasePlayerUnit
+  - Undefined
+  - RamPlayerUnit
   layers:
   - Default
   - TransparentFX
@@ -26,7 +29,7 @@ TagManager:
   - Player
   - Floor
   - Background
-  - 
+  - Enemy
   - 
   - 
   - 
