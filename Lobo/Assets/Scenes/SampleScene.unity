@@ -5472,6 +5472,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerLivesIndicator: {fileID: 2033308804}
   endGamePanel: {fileID: 322511612}
+  cannonRotationRadar: {fileID: 873100023}
+  baseRadar: {fileID: 1636369585}
+  fuelTank: {fileID: 1284467080}
 --- !u!4 &1624873022
 Transform:
   m_ObjectHideFlags: 0

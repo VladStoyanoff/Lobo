@@ -1,25 +1,22 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class AIControllerBasicUnit : MonoBehaviour
+public class AIController : MonoBehaviour
 {
     PatrolRouteGenerator patrolRouteGenerator;
     PlayerController player;
     NavMeshAgent navMeshAgent;
 
     [SerializeField] GameObject bulletPrefab;
-    [SerializeField] Transform bulletSpawnPoint;
 
     int waypointIndex = 0;
-    float timeSinceLastShot = Mathf.Infinity;
 
-    const int FIRE_RATE = 2;
     const float WAYPOINT_WIDTH = .3f;
-    const float BULLET_SPEED = 2f;
     const int CHASE_RADIUS = 1;
+
+    Vector3 waypointPosition;
+    bool isNotInRangeOfPlayer;
 
     void Awake()
     {
@@ -36,21 +33,13 @@ public class AIControllerBasicUnit : MonoBehaviour
 
     void Update()
     {
-        timeSinceLastShot += Time.deltaTime;
         PatrolBehaviour();
         AttackBehaviour();
     }
 
     void PatrolBehaviour()
     {
-        // Travel to current waypoint
-        AssignPatrolAndCurrentWaypoint(out var waypointPosition, out var waypointList);
-        navMeshAgent.destination = waypointPosition;
-
-        var angle = Mathf.Atan2(waypointPosition.y - transform.position.y, waypointPosition.x - transform.position.x) * Mathf.Rad2Deg;
-        var targetRotation = Quaternion.Euler(new Vector3(0, 0, angle));
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, 100 * Time.deltaTime);
-
+        AssignPatrolAndCurrentWaypoint(out waypointPosition, out var waypointList);
         StartApproachingNextWaypoint(waypointPosition);
         RestartPatrolRoute(waypointList);
     }
@@ -58,9 +47,8 @@ public class AIControllerBasicUnit : MonoBehaviour
     void AttackBehaviour()
     {
         if (player == null) return;
-        CheckIfPlayerIsInRange(out var isNotInRangeOfPlayer);
+        CheckIfPlayerIsInRange(out isNotInRangeOfPlayer);
         if (isNotInRangeOfPlayer) return;
-        Shoot(transform.right);
     }
 
     void AssignPatrolAndCurrentWaypoint(out Vector3 waypointPosition, out List<Transform> waypointList)
@@ -69,6 +57,7 @@ public class AIControllerBasicUnit : MonoBehaviour
         var waypoint = list[waypointIndex].position;
         waypointList = list;
         waypointPosition = waypoint;
+        navMeshAgent.destination = waypointPosition;
     }
 
     void StartApproachingNextWaypoint(Vector3 waypointPosition)
@@ -91,13 +80,8 @@ public class AIControllerBasicUnit : MonoBehaviour
         isNotInRangeOfPlayer = check;
     }
 
-    void Shoot(Vector3 bulletDirection)
-    {
-        // Chase and shoot
-        if (timeSinceLastShot < FIRE_RATE) return;
-        var bullet = Instantiate(bulletPrefab, transform.position, Quaternion.Euler(bulletSpawnPoint.transform.localEulerAngles));
-        bullet.tag = "Enemy Bullet";
-        bullet.GetComponent<Rigidbody2D>().velocity = bulletDirection * BULLET_SPEED;
-        timeSinceLastShot = 0;
-    }
+    public Vector3 GetWaypointPosition() => waypointPosition;
+    public bool GetIsNotInRangeOfPlayerBool() => isNotInRangeOfPlayer;
+    public GameObject GetBulletPrefab() => bulletPrefab;
+    public PlayerController GetPlayerController() => player;
 }
