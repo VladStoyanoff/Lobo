@@ -6173,7 +6173,7 @@ GameObject:
   - component: {fileID: 1918349846}
   - component: {fileID: 1918349845}
   m_Layer: 0
-  m_Name: NavMesh
+  m_Name: NavMeshBuilder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

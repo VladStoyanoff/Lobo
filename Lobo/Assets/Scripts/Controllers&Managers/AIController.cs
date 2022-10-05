@@ -15,6 +15,10 @@ public class AIController : MonoBehaviour
     const float WAYPOINT_WIDTH = .3f;
     const int CHASE_RADIUS = 1;
 
+    float timeSinceLastShot = Mathf.Infinity;
+    const int FIRE_RATE = 2;
+    const float BULLET_SPEED = 2f;
+
     Vector3 waypointPosition;
     bool isNotInRangeOfPlayer;
 
@@ -33,6 +37,7 @@ public class AIController : MonoBehaviour
 
     void Update()
     {
+        timeSinceLastShot += Time.deltaTime;
         PatrolBehaviour();
         AttackBehaviour();
     }
@@ -40,8 +45,8 @@ public class AIController : MonoBehaviour
     void PatrolBehaviour()
     {
         AssignPatrolAndCurrentWaypoint(out waypointPosition, out var waypointList);
-        StartApproachingNextWaypoint(waypointPosition);
-        RestartPatrolRoute(waypointList);
+        TryApproachingNextWaypoint(waypointPosition);
+        TryRestartPatrolRoute(waypointList);
     }
 
     void AttackBehaviour()
@@ -60,14 +65,14 @@ public class AIController : MonoBehaviour
         navMeshAgent.destination = waypointPosition;
     }
 
-    void StartApproachingNextWaypoint(Vector3 waypointPosition)
+    void TryApproachingNextWaypoint(Vector3 waypointPosition)
     {
         var distanceToWaypoint = Vector3.Distance(transform.position, waypointPosition);
         if (distanceToWaypoint > WAYPOINT_WIDTH) return;
         waypointIndex++;
     }
 
-    void RestartPatrolRoute(List<Transform> waypointList)
+    void TryRestartPatrolRoute(List<Transform> waypointList)
     {
         if (waypointIndex != waypointList.Count) return;
         waypointIndex = 0;
@@ -87,8 +92,16 @@ public class AIController : MonoBehaviour
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, 1000);
     }
 
+    public void TryShoot(Vector3 bulletDirection)
+    {
+        if (timeSinceLastShot < FIRE_RATE) return;
+        var bullet = Instantiate(bulletPrefab, gameObject.transform.GetChild(0).GetChild(0).transform.position, Quaternion.identity);
+        bullet.tag = "Enemy Bullet";
+        bullet.GetComponent<Rigidbody2D>().velocity = bulletDirection * BULLET_SPEED;
+        timeSinceLastShot = 0;
+    }
+
     public Vector3 GetWaypointPosition() => waypointPosition;
     public bool GetIsNotInRangeOfPlayerBool() => isNotInRangeOfPlayer;
-    public GameObject GetBulletPrefab() => bulletPrefab;
     public PlayerController GetPlayerController() => player;
 }

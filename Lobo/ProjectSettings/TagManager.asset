@@ -5,7 +5,6 @@ TagManager:
   serializedVersion: 2
   tags:
   - Building Block
-  - Core
   - Enemy Bullet
   - Player Bullet
   - UI
@@ -17,6 +16,7 @@ TagManager:
   - ChasePlayerUnit
   - Undefined
   - RamPlayerUnit
+  - Core
   layers:
   - Default
   - TransparentFX

@@ -8,10 +8,10 @@ public class DestroyBase : MonoBehaviour
     {
         if (collision.CompareTag("Player Bullet"))
         {
-            Destroy(enemyBase);
             FindObjectOfType<Spawner>().GetEnemyBases().Remove(enemyBase);
             FindObjectOfType<FuelTank>().RefillTank();
             FindObjectOfType<ScoreManager>().ModifyScore(100);
+            Destroy(enemyBase);
         }
     }
 }
