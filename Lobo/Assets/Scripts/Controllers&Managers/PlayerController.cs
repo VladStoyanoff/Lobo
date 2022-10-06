@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
 
     GameManager gameManager;
     Spawner spawner;
+    AudioManager audioManager;
 
     void Awake()
     {
@@ -26,6 +27,7 @@ public class PlayerController : MonoBehaviour
 
         gameManager = FindObjectOfType<GameManager>();
         spawner = FindObjectOfType<Spawner>();
+        audioManager = FindObjectOfType<AudioManager>();
     }
 
     void Update()
@@ -69,6 +71,7 @@ public class PlayerController : MonoBehaviour
     {
         if (timeSinceLastShot < FIRE_RATE) return;
         if (inputActionsScript.Player.Shoot.IsPressed() == false) return;
+        audioManager.PlayShootingClip();
         var bullet = Instantiate(bulletPrefab, bulletSpawnPoint.transform.position, Quaternion.Euler(cannon.transform.localEulerAngles));
         bullet.tag = "Player Bullet";
         bullet.GetComponent<Rigidbody2D>().velocity = bulletSpawnPoint.up * bulletSpeed;

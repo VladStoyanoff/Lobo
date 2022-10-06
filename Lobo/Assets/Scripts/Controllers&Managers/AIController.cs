@@ -87,9 +87,10 @@ public class AIController : MonoBehaviour
 
     public void RotateTowards(Vector2 positionToRotateTowards)
     {
+        var rotationSpeed = 1000;
         var angle = Mathf.Atan2(positionToRotateTowards.y - transform.position.y, positionToRotateTowards.x - transform.position.x) * Mathf.Rad2Deg;
         var targetRotation = Quaternion.Euler(new Vector3(0, 0, angle));
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, 1000);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed);
     }
 
     public void TryShoot(Vector3 bulletDirection)

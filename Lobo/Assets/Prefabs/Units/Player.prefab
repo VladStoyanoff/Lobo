@@ -451,7 +451,7 @@ MonoBehaviour:
   bulletSpawnPoint: {fileID: 5032805137216995592}
   bulletSpeed: 2
   cannonRotationSpeed: 100
-  moveSpeed: 1
+  moveSpeed: 1.3
 --- !u!114 &756847515117506318
 MonoBehaviour:
   m_ObjectHideFlags: 0

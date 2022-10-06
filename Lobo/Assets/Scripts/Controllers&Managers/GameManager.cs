@@ -109,6 +109,7 @@ public class GameManager : MonoBehaviour
         SetIsGameActiveBool(false);
         yield return new WaitForSeconds(3);
         endGamePanel.SetActive(false);
+        OnGameEnded?.Invoke(this, EventArgs.Empty);
         EndGame();
     }
 
