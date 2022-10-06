@@ -16,7 +16,7 @@ public class AIController : MonoBehaviour
     const int CHASE_RADIUS = 1;
 
     float timeSinceLastShot = Mathf.Infinity;
-    const int FIRE_RATE = 2;
+    const int FIRE_RATE = 1;
     const float BULLET_SPEED = 2f;
 
     Vector3 waypointPosition;

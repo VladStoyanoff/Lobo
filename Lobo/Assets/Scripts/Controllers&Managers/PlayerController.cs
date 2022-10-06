@@ -1,3 +1,4 @@
+using System.Collections;
 using System;
 using UnityEngine;
 
@@ -11,10 +12,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Transform bulletSpawnPoint;
     [SerializeField] float bulletSpeed = 2f;
     [SerializeField] float cannonRotationSpeed = 100;
-    const int FIRE_RATE = 2;
+    const float FIRE_RATE = .5f;
 
     [SerializeField] float moveSpeed;
     Vector2 movementInput;
+
+    [SerializeField] ParticleSystem explosion;
 
     GameManager gameManager;
     Spawner spawner;
@@ -45,11 +48,16 @@ public class PlayerController : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (gameManager.GetCollidedBool()) return;
-        RestartPlayerPosition();
+        StartCoroutine(RestartPlayerPosition());
     }
 
-    public void RestartPlayerPosition()
+    public IEnumerator RestartPlayerPosition()
     {
+        var explosionDuration = 1.5f;
+        explosion.Play();
+        audioManager.PlayDestroyedEnemyClip();
+        GetComponent<PlayerController>().enabled = false;
+        yield return new WaitForSeconds(explosionDuration);
         gameManager.ReduceLives();
         spawner.SpawnPlayer();
     }

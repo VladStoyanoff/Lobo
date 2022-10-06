@@ -23,7 +23,7 @@ public class FuelTank : MonoBehaviour
         if (playerController.GetMovementInput() == new Vector2(0, 0)) return;
         fuelTank.fillAmount -= fuelLostAmount;
         if (fuelTank.fillAmount > 0) return;
-        playerController.RestartPlayerPosition();
+        StartCoroutine(playerController.RestartPlayerPosition());
     }
 
     public void RefillTank()
