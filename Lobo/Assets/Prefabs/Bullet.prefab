@@ -4822,9 +4822,9 @@ GameObject:
   m_Component:
   - component: {fileID: 879368914771988383}
   - component: {fileID: 5429889986957336400}
-  - component: {fileID: 1132937444465920837}
   - component: {fileID: 5835139354879107810}
   - component: {fileID: -7581339230927506738}
+  - component: {fileID: 3340719216321784688}
   m_Layer: 7
   m_Name: Bullet
   m_TagString: Untagged
@@ -4900,32 +4900,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &1132937444465920837
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1609567541951510432}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
 --- !u!50 &5835139354879107810
 Rigidbody2D:
   serializedVersion: 4
@@ -4961,3 +4935,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   explosionRadius: 0.05
   explosion: {fileID: 8423596598849512328}
+--- !u!58 &3340719216321784688
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1609567541951510432}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5

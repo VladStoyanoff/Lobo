@@ -21,6 +21,17 @@ public class EnemyBase : MonoBehaviour
         StartCoroutine(SpawnEnemies());
     }
 
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player Bullet"))
+        {
+            FindObjectOfType<Spawner>().GetEnemyBases().Remove(gameObject);
+            FindObjectOfType<FuelTank>().RefillTank();
+            FindObjectOfType<ScoreManager>().ModifyScore(100);
+            Destroy(gameObject);
+        }
+    }
+
     // The switch statement manages the chance of spawning a specific enemy from the bases. From case 3 to case 8, sometimes it assigns index twice.
     // This design was chosen in order to avoid "staircase complexity" where there's lots of indententions of code consecutively.
     IEnumerator SpawnEnemies()

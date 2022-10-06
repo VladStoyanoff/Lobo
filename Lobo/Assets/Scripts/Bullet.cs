@@ -27,10 +27,10 @@ public class Bullet : MonoBehaviour
         foreach (var col in colliders)
         {
             if (gameObject.CompareTag("Enemy Bullet") && col.CompareTag("Building Block")) continue;
-            if (col.CompareTag("Wall")) continue;
             if (col.CompareTag("Player")) continue;
             if (col.gameObject.CompareTag("Player Bullet") || col.gameObject.CompareTag("Enemy Bullet")) continue;
             audioManager.PlayHitBlockClip();
+            if (col.CompareTag("Wall")) continue;
             Destroy(col.gameObject);
         }
 
@@ -64,9 +64,16 @@ public class Bullet : MonoBehaviour
     IEnumerator DestroyBullet()
     {
         var durationOfTheExplosion = 1.5f;
+        CreateDangerArea();
         GetComponent<SpriteRenderer>().enabled = false;
         GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         yield return new WaitForSeconds(durationOfTheExplosion);
         Destroy(gameObject);
+    }
+
+    void CreateDangerArea()
+    {
+        var dangerAreaSize = .3f;
+        GetComponent<CircleCollider2D>().radius += dangerAreaSize;
     }
 }
