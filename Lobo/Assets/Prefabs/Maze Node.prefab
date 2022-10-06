@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 542736994424281026}
   - component: {fileID: 6030163049246499406}
   - component: {fileID: 6339734324422100139}
-  - component: {fileID: 4563124310479256701}
+  - component: {fileID: 8770675120304604456}
   m_Layer: 6
   m_Name: NegXWall
   m_TagString: Wall
@@ -112,7 +112,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &4563124310479256701
+--- !u!114 &8770675120304604456
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -121,7 +121,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1583789721174719493}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Script: {fileID: 11500000, guid: a89aead09e10a8449821add64221c94c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_OverrideArea: 1
@@ -139,7 +139,7 @@ GameObject:
   - component: {fileID: 7127892331514278293}
   - component: {fileID: 8481594750545070480}
   - component: {fileID: 7848267849829160365}
-  - component: {fileID: 5714219095607625022}
+  - component: {fileID: 3764315186742439581}
   m_Layer: 6
   m_Name: NegYWall
   m_TagString: Wall
@@ -240,7 +240,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5714219095607625022
+--- !u!114 &3764315186742439581
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -249,7 +249,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2650188191110592395}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Script: {fileID: 11500000, guid: a89aead09e10a8449821add64221c94c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_OverrideArea: 1
@@ -266,7 +266,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7975816247607717267}
   - component: {fileID: 197931471413732467}
-  - component: {fileID: 4353298294554820243}
+  - component: {fileID: 2784198230724688051}
   m_Layer: 9
   m_Name: Floor
   m_TagString: Untagged
@@ -341,7 +341,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &4353298294554820243
+--- !u!114 &2784198230724688051
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -350,7 +350,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6035379652510833352}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Script: {fileID: 11500000, guid: a89aead09e10a8449821add64221c94c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_OverrideArea: 1
@@ -368,7 +368,7 @@ GameObject:
   - component: {fileID: 8781906501874070376}
   - component: {fileID: 2275765196044359808}
   - component: {fileID: 7821140193420924038}
-  - component: {fileID: 6326439873678473579}
+  - component: {fileID: 6816642997925806242}
   m_Layer: 6
   m_Name: PosXWall
   m_TagString: Wall
@@ -469,7 +469,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6326439873678473579
+--- !u!114 &6816642997925806242
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -478,7 +478,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6273094495674407483}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Script: {fileID: 11500000, guid: a89aead09e10a8449821add64221c94c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_OverrideArea: 1
@@ -550,7 +550,7 @@ GameObject:
   - component: {fileID: 5978401305512300557}
   - component: {fileID: 1248767916490015277}
   - component: {fileID: 5492661085377539467}
-  - component: {fileID: 9175832091490785163}
+  - component: {fileID: 1743733973627600891}
   m_Layer: 6
   m_Name: PosYWall
   m_TagString: Wall
@@ -651,7 +651,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &9175832091490785163
+--- !u!114 &1743733973627600891
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -660,7 +660,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 9142297809573779433}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Script: {fileID: 11500000, guid: a89aead09e10a8449821add64221c94c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_OverrideArea: 1
