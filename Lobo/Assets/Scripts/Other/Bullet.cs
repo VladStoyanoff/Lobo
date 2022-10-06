@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    [SerializeField] float explosionRadius = .07f;
+    [SerializeField] float explosionRadius;
     [SerializeField] ParticleSystem explosion;
 
     ScoreManager scoreManager;
@@ -64,16 +64,9 @@ public class Bullet : MonoBehaviour
     IEnumerator DestroyBullet()
     {
         var durationOfTheExplosion = 1.5f;
-        CreateDangerArea();
         GetComponent<SpriteRenderer>().enabled = false;
         GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         yield return new WaitForSeconds(durationOfTheExplosion);
         Destroy(gameObject);
-    }
-
-    void CreateDangerArea()
-    {
-        var dangerAreaSize = .3f;
-        GetComponent<CircleCollider2D>().radius += dangerAreaSize;
     }
 }

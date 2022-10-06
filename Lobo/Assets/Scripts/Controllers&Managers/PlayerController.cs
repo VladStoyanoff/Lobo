@@ -56,9 +56,9 @@ public class PlayerController : MonoBehaviour
         var explosionDuration = 1.5f;
         explosion.Play();
         audioManager.PlayDestroyedEnemyClip();
+        gameManager.ReduceLives();
         GetComponent<PlayerController>().enabled = false;
         yield return new WaitForSeconds(explosionDuration);
-        gameManager.ReduceLives();
         spawner.SpawnPlayer();
     }
 

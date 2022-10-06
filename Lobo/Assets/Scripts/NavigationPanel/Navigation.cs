@@ -61,6 +61,7 @@ public class Navigation : MonoBehaviour
         // Find distances to all enemy bases and add them to a list. If the distance is beyond the radar's range dont try to locate the base
         for (int i = 0; i < enemyBases.Count; i++)
         {
+            if (enemyBases[i] == null) continue;
             var distanceBetweenPlayerBase = Vector2.Distance(gameObject.transform.position, enemyBases[i].transform.position);
             vectorLengthList.Add(distanceBetweenPlayerBase);
             if (distanceBetweenPlayerBase > radarRadius) continue;
