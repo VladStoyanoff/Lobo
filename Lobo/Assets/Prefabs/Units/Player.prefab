@@ -99,7 +99,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7507263032129759573
 Transform:
   m_ObjectHideFlags: 0
@@ -140,15 +140,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4019904537769520481}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.04, z: 0}
-  m_LocalScale: {x: 0.15697074, y: 2.13, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.01900196, y: -0.5531001, z: 0}
+  m_LocalScale: {x: 0.15697075, y: 2.13, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 731140281882548048}
   - {fileID: 5032805137216995592}
-  m_Father: {fileID: 526297591896998755}
-  m_RootOrder: 0
+  m_Father: {fileID: 5721029720014897277}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4329040059977146708
 GameObject:
@@ -5197,6 +5197,7 @@ Transform:
   - {fileID: 526297591896998755}
   - {fileID: 7507263032129759573}
   - {fileID: 8787167512690440058}
+  - {fileID: 6604124245482037069}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5261,10 +5262,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 1609567541951510432, guid: 2012ca496abf2c744a9f43e783565b23, type: 3}
   cannon: {fileID: 4019904537769520481}
+  tankSprite: {fileID: 8256491032338710078}
   bulletSpawnPoint: {fileID: 5032805137216995592}
   bulletSpeed: 2
   cannonRotationSpeed: 100
-  moveSpeed: 1.3
+  moveSpeed: 0
   explosion: {fileID: 6541947900689038031}
 --- !u!114 &756847515117506318
 MonoBehaviour:
@@ -5334,8 +5336,7 @@ Transform:
   m_LocalPosition: {x: 0.019, y: -0.5131, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 6604124245482037069}
+  m_Children: []
   m_Father: {fileID: 5721029720014897277}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

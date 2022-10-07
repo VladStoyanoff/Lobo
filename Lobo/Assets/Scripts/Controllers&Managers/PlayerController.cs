@@ -6,22 +6,26 @@ public class PlayerController : MonoBehaviour
 {
     float timeSinceLastShot = Mathf.Infinity;
     InputActions inputActionsScript;
+    GameManager gameManager;
+    Spawner spawner;
+    AudioManager audioManager;
 
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] GameObject cannon;
+    [SerializeField] GameObject tankSprite;
     [SerializeField] Transform bulletSpawnPoint;
+
     [SerializeField] float bulletSpeed = 2f;
     [SerializeField] float cannonRotationSpeed = 100;
+
     const float FIRE_RATE = .5f;
+    const float SLOW_DOWN_AMOUNT = .01f;
+    const int ROTATE_AMOUNT = 45;
 
     [SerializeField] float moveSpeed;
     Vector2 movementInput;
 
     [SerializeField] ParticleSystem explosion;
-
-    GameManager gameManager;
-    Spawner spawner;
-    AudioManager audioManager;
 
     void Awake()
     {
@@ -38,6 +42,7 @@ public class PlayerController : MonoBehaviour
         timeSinceLastShot += Time.deltaTime;
 
         UpdateMovement();
+        AlwaysMoveForward();
         TryRotateCannon();
         TryShootProjectile();
 
@@ -64,8 +69,39 @@ public class PlayerController : MonoBehaviour
 
     void UpdateMovement()
     {
-        movementInput = inputActionsScript.Player.Movement.ReadValue<Vector2>();
-        transform.position += new Vector3(movementInput.x, movementInput.y, 0) * moveSpeed * Time.deltaTime;
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            RotateTank(-ROTATE_AMOUNT);
+        }
+
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            RotateTank(ROTATE_AMOUNT);
+        }
+
+        if (Input.GetKey(KeyCode.S))
+        {
+            moveSpeed -= SLOW_DOWN_AMOUNT;
+            moveSpeed = Mathf.Clamp(moveSpeed, 0, int.MaxValue);
+        }
+
+        if (Input.GetKey(KeyCode.W))
+        {
+            moveSpeed += SLOW_DOWN_AMOUNT;
+        }
+    }
+
+    void RotateTank(float degrees)
+    {
+        var rotationVector = Vector3.zero;
+        rotationVector.z = degrees;
+        tankSprite.transform.localEulerAngles += rotationVector;
+        cannon.transform.localEulerAngles += rotationVector;
+    }
+
+    void AlwaysMoveForward()
+    {
+        transform.position += moveSpeed * Time.deltaTime * tankSprite.transform.up;
     }
 
     void TryRotateCannon()
