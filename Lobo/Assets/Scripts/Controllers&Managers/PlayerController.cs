@@ -6,26 +6,22 @@ public class PlayerController : MonoBehaviour
 {
     float timeSinceLastShot = Mathf.Infinity;
     InputActions inputActionsScript;
-    GameManager gameManager;
-    Spawner spawner;
-    AudioManager audioManager;
 
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] GameObject cannon;
-    [SerializeField] GameObject tankSprite;
     [SerializeField] Transform bulletSpawnPoint;
-
     [SerializeField] float bulletSpeed = 2f;
     [SerializeField] float cannonRotationSpeed = 100;
-
     const float FIRE_RATE = .5f;
-    const float SLOW_DOWN_AMOUNT = .01f;
-    const int ROTATE_AMOUNT = 45;
 
     [SerializeField] float moveSpeed;
     Vector2 movementInput;
 
     [SerializeField] ParticleSystem explosion;
+
+    GameManager gameManager;
+    Spawner spawner;
+    AudioManager audioManager;
 
     void Awake()
     {
@@ -42,7 +38,6 @@ public class PlayerController : MonoBehaviour
         timeSinceLastShot += Time.deltaTime;
 
         UpdateMovement();
-        AlwaysMoveForward();
         TryRotateCannon();
         TryShootProjectile();
 
@@ -59,7 +54,6 @@ public class PlayerController : MonoBehaviour
     public IEnumerator RestartPlayerPosition()
     {
         var explosionDuration = 1.5f;
-        moveSpeed = 0;
         explosion.Play();
         audioManager.PlayDestroyedEnemyClip();
         gameManager.ReduceLives();
@@ -70,31 +64,8 @@ public class PlayerController : MonoBehaviour
 
     void UpdateMovement()
     {
-        UpdateRotation(Input.GetKeyDown(KeyCode.D), -1);
-        UpdateRotation(Input.GetKeyDown(KeyCode.A), 1);
-        UpdateSpeed(Input.GetKey(KeyCode.S), -1);
-        UpdateSpeed(Input.GetKey(KeyCode.W), 1);
-    }
-
-    void UpdateRotation(bool key, float changeSigns)
-    {
-        if (!key) return;
-        var rotationVector = Vector3.zero;
-        rotationVector.z = ROTATE_AMOUNT * changeSigns;
-        tankSprite.transform.localEulerAngles += rotationVector;
-        cannon.transform.localEulerAngles += rotationVector;
-    }
-
-    void UpdateSpeed(bool key, float changeSigns)
-    {
-        if (!key) return;
-        moveSpeed += SLOW_DOWN_AMOUNT * changeSigns;
-        moveSpeed = Mathf.Clamp(moveSpeed, 0, int.MaxValue);
-    }
-
-    void AlwaysMoveForward()
-    {
-        transform.position += moveSpeed * Time.deltaTime * tankSprite.transform.up;
+        movementInput = inputActionsScript.Player.Movement.ReadValue<Vector2>();
+        transform.position += new Vector3(movementInput.x, movementInput.y, 0) * moveSpeed * Time.deltaTime;
     }
 
     void TryRotateCannon()
