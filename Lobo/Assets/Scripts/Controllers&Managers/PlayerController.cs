@@ -59,6 +59,7 @@ public class PlayerController : MonoBehaviour
     public IEnumerator RestartPlayerPosition()
     {
         var explosionDuration = 1.5f;
+        moveSpeed = 0;
         explosion.Play();
         audioManager.PlayDestroyedEnemyClip();
         gameManager.ReduceLives();
@@ -69,34 +70,26 @@ public class PlayerController : MonoBehaviour
 
     void UpdateMovement()
     {
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            RotateTank(-ROTATE_AMOUNT);
-        }
-
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            RotateTank(ROTATE_AMOUNT);
-        }
-
-        if (Input.GetKey(KeyCode.S))
-        {
-            moveSpeed -= SLOW_DOWN_AMOUNT;
-            moveSpeed = Mathf.Clamp(moveSpeed, 0, int.MaxValue);
-        }
-
-        if (Input.GetKey(KeyCode.W))
-        {
-            moveSpeed += SLOW_DOWN_AMOUNT;
-        }
+        UpdateRotation(Input.GetKeyDown(KeyCode.D), -1);
+        UpdateRotation(Input.GetKeyDown(KeyCode.A), 1);
+        UpdateSpeed(Input.GetKey(KeyCode.S), -1);
+        UpdateSpeed(Input.GetKey(KeyCode.W), 1);
     }
 
-    void RotateTank(float degrees)
+    void UpdateRotation(bool key, float changeSigns)
     {
+        if (!key) return;
         var rotationVector = Vector3.zero;
-        rotationVector.z = degrees;
+        rotationVector.z = ROTATE_AMOUNT * changeSigns;
         tankSprite.transform.localEulerAngles += rotationVector;
         cannon.transform.localEulerAngles += rotationVector;
+    }
+
+    void UpdateSpeed(bool key, float changeSigns)
+    {
+        if (!key) return;
+        moveSpeed += SLOW_DOWN_AMOUNT * changeSigns;
+        moveSpeed = Mathf.Clamp(moveSpeed, 0, int.MaxValue);
     }
 
     void AlwaysMoveForward()
