@@ -49,34 +49,34 @@ public class EnemyBase : MonoBehaviour
                     index = basicUnitIndex;
                     break;
                 case 2:
-                    index = randomModifier < 80 ? index = basicUnitIndex : index = chasePlayerUnitIndex;
+                    index = randomModifier < 80 ? basicUnitIndex : chasePlayerUnitIndex;
                     break;
                 case 3:
-                    index = randomModifier > 70 && randomModifier < 90 ? index = chasePlayerUnitIndex : index = ramPlayerUnitIndex;
+                    index = randomModifier > 70 && randomModifier < 90 ? chasePlayerUnitIndex : ramPlayerUnitIndex;
                     if (randomModifier < 70) index = basicUnitIndex;
                     break;
                 case 4:
-                    index = randomModifier > 50 && randomModifier < 75 ? index = chasePlayerUnitIndex : index = ramPlayerUnitIndex;
+                    index = randomModifier > 50 && randomModifier < 75 ? chasePlayerUnitIndex : ramPlayerUnitIndex;
                     if (randomModifier < 50) index = basicUnitIndex;
                     break;
                 case 5:
-                    index = randomModifier > 40 && randomModifier < 70 ? index = chasePlayerUnitIndex : index = ramPlayerUnitIndex;
+                    index = randomModifier > 40 && randomModifier < 70 ? chasePlayerUnitIndex : ramPlayerUnitIndex;
                     if (randomModifier < 40) index = basicUnitIndex;
                     break;
                 case 6:
-                    index = randomModifier > 33 && randomModifier < 66 ? index = chasePlayerUnitIndex : index = ramPlayerUnitIndex;
+                    index = randomModifier > 33 && randomModifier < 66 ? chasePlayerUnitIndex : ramPlayerUnitIndex;
                     if (randomModifier < 33) index = basicUnitIndex;
                     break;
                 case 7:
-                    index = randomModifier > 25 && randomModifier < 40 ? index = chasePlayerUnitIndex : index = ramPlayerUnitIndex;
+                    index = randomModifier > 25 && randomModifier < 40 ? chasePlayerUnitIndex : ramPlayerUnitIndex;
                     if (randomModifier < 25) index = basicUnitIndex;
                     break;
                 case 8:
-                    index = randomModifier > 10 && randomModifier < 45 ? index = chasePlayerUnitIndex : index = ramPlayerUnitIndex;
+                    index = randomModifier > 10 && randomModifier < 45 ? chasePlayerUnitIndex : ramPlayerUnitIndex;
                     if (randomModifier < 10) index = basicUnitIndex;
                     break;
                 case 9:
-                    index = randomModifier < 50 ? index = chasePlayerUnitIndex : index = ramPlayerUnitIndex;
+                    index = randomModifier < 50 ? chasePlayerUnitIndex : ramPlayerUnitIndex;
                     break;
             }
 
